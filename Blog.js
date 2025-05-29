@@ -135,26 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 3. Dark mode toggle functionality
-    const darkModeToggle = document.querySelector('.dark-mode-toggle');
-    darkModeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
 
-        // Update toggle button icon
-        if (document.body.classList.contains('dark-mode')) {
-            this.textContent = '??';
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            this.textContent = '??';
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    });
-
-    // Check for saved dark mode preference
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        document.body.classList.add('dark-mode');
-        darkModeToggle.textContent = '??';
-    }
 
     // 4. Blog post data (simulated)
     const blogPosts = [
