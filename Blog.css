@@ -669,6 +669,4 @@ body.dark-mode .modal-date {
             transform: scale(1.3);
 }
 
-nav * {
-  transition: background-color 0.5s ease-in-out;
-}
+
