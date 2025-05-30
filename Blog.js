@@ -28,7 +28,7 @@ function showProtectionAlert() {
 
     // Create alert text
     const alertText = document.createElement("h1");
-    alertText.textContent = "Security gulugulu.";
+    alertText.textContent = "access denied.";
     overlay.appendChild(alertText);
 
     // Create reload button
