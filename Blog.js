@@ -1,3 +1,5 @@
+(function(_0x1a9a5e,_0x4e0d25){var _0x5e3956=function(_0x4a66e4){...}})(window,document);
+
 // Detect when the user tries to inspect the webpage
 document.addEventListener("contextmenu", function(event) {
     event.preventDefault();
