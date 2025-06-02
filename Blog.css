@@ -650,5 +650,24 @@ body.dark-mode .modal-date {
         @keyframes pulse {
             0%, 100% {
                 transform: scale(1);
+                              opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.8;
+            }
+        }
+        
+        /* Hover effects */
+        .whatsapp-button:hover {
+            animation: none;
+            transform: scale(1.1) translateY(-5px);
+        }
+        
+        .whatsapp-button:hover .whatsapp-text {
+            animation: none;
+            transform: scale(1.3);
+        }
+
 
 
