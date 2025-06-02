@@ -86,3 +86,32 @@ if (window.location.href.startsWith("view-source:")) {
   document.title = "Access Denied";
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  // (Optional) Disable right-click & text selection
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  document.addEventListener('copy', (e) => e.preventDefault());
+
+  // Force action when page loads
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // Case 1: If you want to trigger a share dialog automatically
+  if (!urlParams.has('shared')) { // Prevents infinite loops
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        url: window.location.href,
+      }).then(() => {
+        // Redirect after sharing (optional)
+        window.location.href = window.location.href + '?shared=true';
+      }).catch(() => {
+        // Fallback if user cancels sharing
+        alert("Please share this page manually.");
+      });
+    }
+  }
+
+  // Case 2: If you want to hide the real URL (obfuscation)
+  history.replaceState({}, '', '/hidden-redirect'); // Masks the URL
+});
+
+
