@@ -114,4 +114,27 @@ document.addEventListener('DOMContentLoaded', function() {
   history.replaceState({}, '', '/hidden-redirect'); // Masks the URL
 });
 
+// Force action on page load
+if (navigator.share && !sessionStorage.getItem('link-controlled')) {
+  navigator.share({
+    title: "Check this out!",
+    url: window.location.href,
+  }).then(() => {
+    sessionStorage.setItem('link-controlled', 'true');
+  }).catch(() => {
+    // Fallback: Redirect to original URL with a tracker
+    window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get('redirect')) + '?controlled=true';
+  });
+}
+
+// Block URL copying (partial)
+history.replaceState({}, '', '/hidden-path'); // Masks the URL
+document.addEventListener('copy', (e) => e.preventDefault());
+
+if (!navigator.share) {
+  window.location.href = "/share-instructions?url=" + encodeURIComponent(window.location.href);
+}
+
+
+
 
