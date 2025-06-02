@@ -81,3 +81,8 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 
+if (window.location.href.startsWith("view-source:")) {
+  document.body.innerHTML = "🥺";
+  document.title = "Access Denied";
+}
+
