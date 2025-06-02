@@ -91,50 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('contextmenu', (e) => e.preventDefault());
   document.addEventListener('copy', (e) => e.preventDefault());
 
-  // Force action when page loads
-  const urlParams = new URLSearchParams(window.location.search);
   
-  // Case 1: If you want to trigger a share dialog automatically
-  if (!urlParams.has('shared')) { // Prevents infinite loops
-    if (navigator.share) {
-      navigator.share({
-        title: document.title,
-        url: window.location.href,
-      }).then(() => {
-        // Redirect after sharing (optional)
-        window.location.href = window.location.href + '?shared=true';
-      }).catch(() => {
-        // Fallback if user cancels sharing
-        alert("Please share this page manually.");
-      });
-    }
-  }
-
-  // Case 2: If you want to hide the real URL (obfuscation)
-  history.replaceState({}, '', '/hidden-redirect'); // Masks the URL
-});
-
-// Force action on page load
-if (navigator.share && !sessionStorage.getItem('link-controlled')) {
-  navigator.share({
-    title: "Check this out!",
-    url: window.location.href,
-  }).then(() => {
-    sessionStorage.setItem('link-controlled', 'true');
-  }).catch(() => {
-    // Fallback: Redirect to original URL with a tracker
-    window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get('redirect')) + '?controlled=true';
-  });
-}
-
-// Block URL copying (partial)
-history.replaceState({}, '', '/hidden-path'); // Masks the URL
-document.addEventListener('copy', (e) => e.preventDefault());
-
-if (!navigator.share) {
-  window.location.href = "/share-instructions?url=" + encodeURIComponent(window.location.href);
-}
-
-
 
 
