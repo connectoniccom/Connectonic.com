@@ -128,32 +128,7 @@
         const CONFIG = {
             // Content sources configuration
             contentSources: {
-                'home': {
-                    title: 'Home Overview',
-                    sources: [
-                        {
-                            type: 'home-module',
-                            url: 'js/module/home.module.js',
-                            version: '1.2.0'
-                        },
-                        {
-                            type: 'iframe',
-                            url: 'Home.html'
-                            url: 'js/Lock.js'
-                        },
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="fallback-content">
-                                    <h2>Dashboard Overview</h2>
-                                    <p>Key metrics and performance indicators would appear here.</p>
-                                    <p><strong>Last updated:</strong> <span id="dashboard-time">${new Date().toLocaleString()}</span></p>
-                                </div>
-                            `
-                        }
-                    ]
-                },
-                'dashboard': {
+                  'dashboard': {
                     title: 'Dashboard Overview',
                     sources: [
                         {
