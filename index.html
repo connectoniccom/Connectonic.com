@@ -486,8 +486,7 @@
             setupNavigation() {
                 document.querySelectorAll('nav a').forEach(link => {
                     link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        history.pushState(null, '', link.href);
+                        history.pushState(true, '', link.href);
                         this.loadContentForCurrentUrl();
                     });
                 });
