@@ -141,6 +141,18 @@
                             url: 'Home.html'
                             url: 'js/Lock.js'
                         },
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="fallback-content">
+                                    <h2>Dashboard Overview</h2>
+                                    <p>Key metrics and performance indicators would appear here.</p>
+                                    <p><strong>Last updated:</strong> <span id="dashboard-time">${new Date().toLocaleString()}</span></p>
+                                </div>
+                            `
+                        }
+                    ]
+                },
                 'dashboard': {
                     title: 'Dashboard Overview',
                     sources: [
