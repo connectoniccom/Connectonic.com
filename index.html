@@ -127,18 +127,17 @@
         const CONFIG = {
             // Content sources configuration
             contentSources: {
-                  'dashboard': {
+                'dashboard': {
                     title: 'Dashboard Overview',
                     sources: [
                         {
                             type: 'js-module',
-                            url: 'js/module/dashboard.module.js',
+                            url: '/js/dashboard.module.js',
                             version: '1.2.0'
                         },
                         {
                             type: 'iframe',
-                            url: 'dashboard.html'
-                            url: 'js/Lock.js'
+                            url: '/embed/dashboard.html'
                         },
                         {
                             type: 'static',
@@ -305,7 +304,7 @@
             updateActiveNavLink(contentId) {
                 document.querySelectorAll('nav a').forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href').includes(`id=${contentId}`)) {
+                    if (link.getAttribute('href').includes(id=${contentId})) {
                         link.classList.add('active');
                     }
                 });
@@ -316,12 +315,12 @@
                 this.retryCount = 0;
                 
                 const contentConfig = CONFIG.contentSources[contentId] || CONFIG.contentSources['default'];
-                document.title = `${contentConfig.title} | Professional CMS`;
+                document.title = ${contentConfig.title} | Professional CMS;
                 
                 try {
                     await this.attemptContentLoad(contentConfig);
                 } catch (error) {
-                    this.showErrorState(`Failed to load content: ${error.message}`);
+                    this.showErrorState(Failed to load content: ${error.message});
                     this.loadFallbackContent(contentConfig);
                 }
             }
@@ -350,7 +349,7 @@
                                 continue;
                         }
                     } catch (error) {
-                        console.warn(`Failed to load ${source.type}:`, error.message);
+                        console.warn(Failed to load ${source.type}:, error.message);
                         continue;
                     }
                 }
@@ -365,10 +364,10 @@
                 await this.loadScript(url, timeout);
                 
                 // Verify the module initialized correctly
-                const moduleName = `init${source.url.split('/').pop().split('.')[0]}`;
+                const moduleName = init${source.url.split('/').pop().split('.')[0]};
                 if (typeof window[moduleName] === 'function') {
                     window[moduleName](document.getElementById('content-display'));
-                    this.showSuccessState(`Loaded interactive module: ${source.url}`);
+                    this.showSuccessState(Loaded interactive module: ${source.url});
                 } else {
                     throw new Error('Module initialization failed');
                 }
@@ -401,7 +400,7 @@
                     };
                 });
                 
-                this.showSuccessState(`Loaded embedded content: ${source.url}`);
+                this.showSuccessState(Loaded embedded content: ${source.url});
             }
             
             loadStaticContent(source) {
@@ -423,7 +422,7 @@
                     script.type = 'module';
                     
                     const timer = setTimeout(() => {
-                        reject(new Error(`Script load timeout: ${url}`));
+                        reject(new Error(Script load timeout: ${url}));
                         document.head.removeChild(script);
                     }, timeout);
                     
@@ -434,7 +433,7 @@
                     
                     script.onerror = () => {
                         clearTimeout(timer);
-                        reject(new Error(`Script load failed: ${url}`));
+                        reject(new Error(Script load failed: ${url}));
                     };
                     
                     document.head.appendChild(script);
@@ -445,7 +444,7 @@
                 if (!CONFIG.settings.cacheBusting) return url;
                 
                 const bust = version || Date.now();
-                return url.includes('?') ? `${url}&v=${bust}` : `${url}?v=${bust}`;
+                return url.includes('?') ? ${url}&v=${bust} : ${url}?v=${bust};
             }
             
             showLoadingState() {
@@ -475,18 +474,19 @@
             updateStatus(message, type = 'loading') {
                 const statusElement = document.getElementById('status-message');
                 statusElement.textContent = message;
-                statusElement.className = `status ${type}`;
+                statusElement.className = status ${type};
             }
             
             updateTimestamp() {
                 document.getElementById('load-timestamp').textContent = 
-                    `Last updated: ${new Date().toLocaleString()}`;
+                    Last updated: ${new Date().toLocaleString()};
             }
             
             setupNavigation() {
                 document.querySelectorAll('nav a').forEach(link => {
                     link.addEventListener('click', (e) => {
-                        history.pushState(true, '', link.href);
+                        e.preventDefault();
+                        history.pushState(null, '', link.href);
                         this.loadContentForCurrentUrl();
                     });
                 });
@@ -501,4 +501,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
