@@ -1,504 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Content Loader</title>
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --error-color: #dc2626;
-            --success-color: #16a34a;
-            --warning-color: #d97706;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            line-height: 1.6;
-            color: #1e293b;
-        }
-        header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-        nav {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        nav a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            transition: all 0.2s;
-        }
-        nav a:hover, nav a.active {
-            background-color: #eff6ff;
-        }
-        .content-container {
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            min-height: 400px;
-            position: relative;
-            background-color: #f8fafc;
-        }
-        .loader {
-            display: inline-block;
-            width: 2rem;
-            height: 2rem;
-            border: 0.25rem solid #e2e8f0;
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .status {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-        }
-        .status.loading {
-            background-color: #eff6ff;
-            color: var(--primary-color);
-        }
-        .status.error {
-            background-color: #fee2e2;
-            color: var(--error-color);
-        }
-        .status.success {
-            background-color: #dcfce7;
-            color: var(--success-color);
-        }
-        .status.warning {
-            background-color: #fef3c7;
-            color: var(--warning-color);
-        }
-        .timestamp {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 0.5rem;
-        }
-        #content-frame {
-            width: 100%;
-            min-height: 300px;
-            border: none;
-            background: white;
-            border-radius: 0.375rem;
-        }
-    </style>
+    <title>Byabasajja Matayo's Personal Blog</title>
+    <link rel="icon" href="/public/Images /favicon.jpg" type="image/x-icon" class="favicon">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <div class="loader">
+    <img src="/public/Images /loader.jpg" width="720" height="720" alt="">
+    </div>
+    
+    <div class="content">
     <header>
-        <h1>Professional Content Management System</h1>
-        <nav>
-            <a href="?id=dashboard" class="active">Dashboard</a>
-            <a href="?id=analytics">Analytics</a>
-            <a href="?id=reports">Reports</a>
-            <a href="?id=settings">Settings</a>
-        </nav>
+    
+      <a href="https://wa.me/+256757760183" class="whatsapp-widget" target="_blank">
+        <div class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+                 alt="WhatsApp" 
+                 class="whatsapp-icon">
+            <div class="whatsapp-text">WhatsApp us</div>
+       </div>
+    </a>  
+    
+    <div class="container">
+            <img src="/public/Images /B3.jpg" width="68" height="64"  class="profile-img">
+            <h1>BYABASAJJA MATAYO</h1>
+            <p>Personal Blog & Journey</p>
+        </div>
     </header>
 
-    <main class="content-container">
-        <div id="loading-indicator" class="loader"></div>
-        <div id="content-display"></div>
-        <div id="status-message" class="status loading">Initializing content system...</div>
-        <div class="timestamp" id="load-timestamp"></div>
-    </main>
+    <nav>
+        <ul>
+            <h2>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#parents">My Parents</a></li>
+            <li><a href="#journey">My Journey</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+            </h2>
+        </ul>
+    </nav>
 
-    <script>
-        // ======================
-        // Configuration
-        // ======================
-        const CONFIG = {
-            // Content sources configuration
-            contentSources: {
-                'dashboard': {
-                    title: 'Dashboard Overview',
-                    sources: [
-                        {
-                            type: 'js-module',
-                            url: '/js/dashboard.module.js',
-                            version: '1.2.0'
-                        },
-                        {
-                            type: 'iframe',
-                            url: '/embed/dashboard.html'
-                        },
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="fallback-content">
-                                    <h2>Dashboard Overview</h2>
-                                    <p>Key metrics and performance indicators would appear here.</p>
-                                    <p><strong>Last updated:</strong> <span id="dashboard-time">${new Date().toLocaleString()}</span></p>
-                                </div>
-                            `
-                        }
-                    ]
-                },
-                'analytics': {
-                    title: 'Analytics Console',
-                    sources: [
-                        {
-                            type: 'js-module',
-                            url: '/js/analytics.module.js',
-                            version: '2.1.3'
-                        },
-                        {
-                            type: 'iframe',
-                            url: '/embed/analytics.html'
-                        },
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="fallback-content">
-                                    <h2>Analytics Console</h2>
-                                    <p>Visitor statistics and engagement metrics would appear here.</p>
-                                    <div class="placeholder-chart" style="height: 200px; background: #f1f5f9; display: flex; justify-content: center; align-items: center;">
-                                        Chart Placeholder
-                                    </div>
-                                </div>
-                            `
-                        }
-                    ]
-                },
-                'reports': {
-                    title: 'Reports Center',
-                    sources: [
-                        {
-                            type: 'js-module',
-                            url: '/js/reports.module.js',
-                            version: '1.5.2'
-                        },
-                        {
-                            type: 'iframe',
-                            url: '/embed/reports.html'
-                        },
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="fallback-content">
-                                    <h2>Reports Center</h2>
-                                    <p>Generated reports and data exports would appear here.</p>
-                                    <ul>
-                                        <li>Monthly Performance Report</li>
-                                        <li>User Activity Summary</li>
-                                        <li>System Health Metrics</li>
-                                    </ul>
-                                </div>
-                            `
-                        }
-                    ]
-                },
-                'settings': {
-                    title: 'System Settings',
-                    sources: [
-                        {
-                            type: 'js-module',
-                            url: '/js/settings.module.js',
-                            version: '3.0.1'
-                        },
-                        {
-                            type: 'iframe',
-                            url: '/embed/settings.html'
-                        },
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="fallback-content">
-                                    <h2>System Settings</h2>
-                                    <p>Configuration options would appear here.</p>
-                                    <div class="settings-grid">
-                                        <div class="setting-item">
-                                            <label>Theme</label>
-                                            <select disabled>
-                                                <option>Light</option>
-                                                <option>Dark</option>
-                                            </select>
-                                        </div>
-                                        <div class="setting-item">
-                                            <label>Notifications</label>
-                                            <input type="checkbox" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            `
-                        }
-                    ]
-                },
-                'default': {
-                    title: 'Content Not Available',
-                    sources: [
-                        {
-                            type: 'static',
-                            content: `
-                                <div class="error-content">
-                                    <h2>Content Not Found</h2>
-                                    <p>The requested content could not be loaded. Please try another section.</p>
-                                    <p>If this error persists, contact support with reference code: <code>ERR_${Date.now().toString(36).toUpperCase()}</code></p>
-                                </div>
-                            `
-                        }
-                    ]
-                }
-            },
-            
-            // System configuration
-            settings: {
-                cacheBusting: true,
-                loadTimeout: 8000, // 8 seconds
-                retryDelay: 1000,
-                maxRetries: 2
-            }
-        };
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>My Story</h3>
+                    <p>Hello! I'm Byabasajja matayo, a passionate writer and traveler. I was born and raised in Hoima/lubale, Uganda, where I spent the first 15 years of my life surrounded by the beautiful landscapes and vibrant culture of my homeland.</p>
+                    <p>Currently, I'm living in Iganga, uganda.</p>
+                    <p>Through this blog, I share my experiences, thoughts, and the lessons I've learned along the way. Join me as I navigate through life's adventures!</p>
+                </div>
+                <div class="about-image">
+                <img src="/public/Images /B11.jpg" width="100%" height="1080"  alt="About me image">
+                </div>
+            </div>
+        </div>
+    </section>
 
-        // ======================
-        // Core System
-        // ======================
-        class ContentLoader {
-            constructor() {
-                this.currentLoad = null;
-                this.retryCount = 0;
-                this.init();
-            }
-            
-            init() {
-                this.updateTimestamp();
-                this.setupNavigation();
-                this.loadContentForCurrentUrl();
-                window.addEventListener('popstate', () => this.loadContentForCurrentUrl());
-            }
-            
-            async loadContentForCurrentUrl() {
-                // Cancel any pending load
-                if (this.currentLoad && this.currentLoad.cancel) {
-                    this.currentLoad.cancel();
-                }
-                
-                const contentId = this.getContentIdFromUrl();
-                this.updateActiveNavLink(contentId);
-                await this.loadContent(contentId);
-            }
-            
-            getContentIdFromUrl() {
-                const params = new URLSearchParams(window.location.search);
-                const contentId = params.get('id');
-                return contentId && CONFIG.contentSources[contentId] ? contentId : 'dashboard';
-            }
-            
-            updateActiveNavLink(contentId) {
-                document.querySelectorAll('nav a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').includes(id=${contentId})) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-            
-            async loadContent(contentId) {
-                this.showLoadingState();
-                this.retryCount = 0;
-                
-                const contentConfig = CONFIG.contentSources[contentId] || CONFIG.contentSources['default'];
-                document.title = ${contentConfig.title} | Professional CMS;
-                
-                try {
-                    await this.attemptContentLoad(contentConfig);
-                } catch (error) {
-                    this.showErrorState(Failed to load content: ${error.message});
-                    this.loadFallbackContent(contentConfig);
-                }
-            }
-            
-            async attemptContentLoad(contentConfig) {
-                const controller = new AbortController();
-                this.currentLoad = { cancel: () => controller.abort() };
-                
-                // Try each source in order until one succeeds
-                for (const source of contentConfig.sources) {
-                    try {
-                        switch (source.type) {
-                            case 'js-module':
-                                await this.loadJsModule(source);
-                                return;
-                                
-                            case 'iframe':
-                                await this.loadIframe(source);
-                                return;
-                                
-                            case 'static':
-                                this.loadStaticContent(source);
-                                return;
-                                
-                            default:
-                                continue;
-                        }
-                    } catch (error) {
-                        console.warn(Failed to load ${source.type}:, error.message);
-                        continue;
-                    }
-                }
-                
-                throw new Error('All content sources failed');
-            }
-            
-            async loadJsModule(source) {
-                const url = this.getCacheBustedUrl(source.url, source.version);
-                const timeout = CONFIG.settings.loadTimeout;
-                
-                await this.loadScript(url, timeout);
-                
-                // Verify the module initialized correctly
-                const moduleName = init${source.url.split('/').pop().split('.')[0]};
-                if (typeof window[moduleName] === 'function') {
-                    window[moduleName](document.getElementById('content-display'));
-                    this.showSuccessState(Loaded interactive module: ${source.url});
-                } else {
-                    throw new Error('Module initialization failed');
-                }
-            }
-            
-            async loadIframe(source) {
-                const url = this.getCacheBustedUrl(source.url);
-                const iframe = document.createElement('iframe');
-                iframe.id = 'content-frame';
-                iframe.src = url;
-                
-                const container = document.getElementById('content-display');
-                container.innerHTML = '';
-                container.appendChild(iframe);
-                
-                // Verify iframe loaded
-                await new Promise((resolve, reject) => {
-                    const timeout = setTimeout(() => {
-                        reject(new Error('Iframe load timeout'));
-                    }, CONFIG.settings.loadTimeout);
-                    
-                    iframe.onload = () => {
-                        clearTimeout(timeout);
-                        resolve();
-                    };
-                    
-                    iframe.onerror = () => {
-                        clearTimeout(timeout);
-                        reject(new Error('Iframe load failed'));
-                    };
-                });
-                
-                this.showSuccessState(Loaded embedded content: ${source.url});
-            }
-            
-            loadStaticContent(source) {
-                const container = document.getElementById('content-display');
-                container.innerHTML = source.content;
-                this.showWarningState('Showing static content (interactive features unavailable)');
-            }
-            
-            loadFallbackContent(contentConfig) {
-                const staticSource = contentConfig.sources.find(s => s.type === 'static') || 
-                                    CONFIG.contentSources['default'].sources[0];
-                this.loadStaticContent(staticSource);
-            }
-            
-            async loadScript(url, timeout = 5000) {
-                return new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.src = url;
-                    script.type = 'module';
-                    
-                    const timer = setTimeout(() => {
-                        reject(new Error(Script load timeout: ${url}));
-                        document.head.removeChild(script);
-                    }, timeout);
-                    
-                    script.onload = () => {
-                        clearTimeout(timer);
-                        resolve();
-                    };
-                    
-                    script.onerror = () => {
-                        clearTimeout(timer);
-                        reject(new Error(Script load failed: ${url}));
-                    };
-                    
-                    document.head.appendChild(script);
-                });
-            }
-            
-            getCacheBustedUrl(url, version) {
-                if (!CONFIG.settings.cacheBusting) return url;
-                
-                const bust = version || Date.now();
-                return url.includes('?') ? ${url}&v=${bust} : ${url}?v=${bust};
-            }
-            
-            showLoadingState() {
-                document.getElementById('loading-indicator').style.display = 'block';
-                document.getElementById('content-display').innerHTML = '';
-                this.updateStatus('Loading content...', 'loading');
-            }
-            
-            showSuccessState(message) {
-                document.getElementById('loading-indicator').style.display = 'none';
-                this.updateStatus(message, 'success');
-                this.updateTimestamp();
-            }
-            
-            showWarningState(message) {
-                document.getElementById('loading-indicator').style.display = 'none';
-                this.updateStatus(message, 'warning');
-                this.updateTimestamp();
-            }
-            
-            showErrorState(message) {
-                document.getElementById('loading-indicator').style.display = 'none';
-                this.updateStatus(message, 'error');
-                this.updateTimestamp();
-            }
-            
-            updateStatus(message, type = 'loading') {
-                const statusElement = document.getElementById('status-message');
-                statusElement.textContent = message;
-                statusElement.className = status ${type};
-            }
-            
-            updateTimestamp() {
-                document.getElementById('load-timestamp').textContent = 
-                    Last updated: ${new Date().toLocaleString()};
-            }
-            
-            setupNavigation() {
-                document.querySelectorAll('nav a').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        history.pushState(null, '', link.href);
-                        this.loadContentForCurrentUrl();
-                    });
-                });
-            }
-        }
+<section id="parents" class="section">
+        <div class="container">
+            <h2 class="section-title">My Parents</h2>
+            <div class="parents-info">
+                <div class="parent-card">
+                    <img src="" alt="Father" class="parent-img">
+                    <h3></h3>
+                    <p>Father</p>
+                    <p><strong>Occupation:</strong>Farmer</p>
+                    <p><strong>Phone:</strong> ‪+256 754279450‬</p>
+                    <p><strong>Email:</strong> </p>
+                    <p><strong>Location:</strong> HOIMA/LUBALE, Uganda</p>
+                </div>
+                <div class="parent-card">
+                    <img src="" alt="Mother" class="parent-img">
+                    <h3></h3>
+                    <p>Mother</p>
+                    <p><strong>Occupation:</strong> Teacher</p>
+                    <p><strong>Phone:</strong> +256 </p>
+                    <p><strong>Email:</strong> </p>
+                    <p><strong>Location:</strong> Hoima/lubale, Uganda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+                <div class="about-text">
+                    <h3>From Kamuli to iganga</h3>
+                    <p>Growing up in Kampala was a beautiful experience. The city's energy, the warmth of its people, and the rich cultural heritage shaped who I am today. My parents provided me with a loving home and encouraged me to pursue my dreams.</p>
+                    <p>In 2024, I moved to iganga to work  </p>
+                    <p>Now, I split my time between kasolo and iganga, maintaining strong connections with my roots while embracing the opportunities in my new home.</p>
+                </div><img src="" alt="">
+            </div>
+        </div>
+    </section>
 
-        // ======================
-        // Initialize the system
-        // ======================
-        document.addEventListener('DOMContentLoaded', () => {
-            new ContentLoader();
-        });
-    </script>
+<section id="blog" class="section">
+        <div class="container">
+            <h2 class="section-title">Latest Blog Posts</h2>
+            <div class="blog-posts">
+                <div class="blog-card">
+                 <img src="/public/Images /B9.jpg" width="1080" height="810" alt="Blog post image" class="blog-img">
+                    <div class="blog-content">
+                        <h3 class="blog-title">Embracing Change: My Move to iganga</h3>
+                        <p class="blog-date">April 15, 2024</p>
+                        <p class="blog-excerpt">Reflections on leaving my hometown and adapting to life in a new city...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+
+<div class="blog-card">
+                    <img src="/public/Images /B5.jpg" width="540" height="540" alt="Blog post image" class="blog-img">
+                    <div class="blog-content">
+                        <h3 class="blog-title"></h3>
+                        <p class="blog-date">March 28, 2023</p>
+                        <p class="blog-excerpt">Cultural practices from my childhood that I maintain even while living abroad...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="/public/Images /B1.jpg" width="540" height="540" alt="Blog post image" class="blog-img">
+                    <div class="blog-content">
+                        <h3 class="blog-title">Balancing Two Homes</h3>
+                        <p class="blog-date">March 10, 2023</p>
+                        <p class="blog-excerpt">How I maintain connections with both kamuli and iganga, and what each place means to me...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+       <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <p>+256 757760183</p>
+                    <p>+256 780641327</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">✉</div>
+                    <h3>Email</h3>
+                    <p>Byabasajjam@gmail.com</p>
+                    <p></p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Address</h3>
+                    <p>Hoima/lubale, Uganda</p>
+                    <p>Now in iganga/kosolo, Uganda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+ <footer>
+        <div class="container">
+            <p><marquee>&copy; 2025 Byabasajja matayo's Personal Blog. All rights reserved.</marquee></p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/profile.php?id=100089358362176&mibextid=ZbWKwL" aria-label="Facebook"><img src="/public/fonts-awesome.brands/facebook.svg" width="30px" height="30px" alt="" /></a>
+                <a href="https://x.com/Byabasajja98723?t=BkEmhkepLNMiS3a-M8idZw&s=09" aria-label="Twitter"><img src="/public/fonts-awesome.brands/twitter.svg" width="30px" height="30px" alt="" /></a>
+                <a href="#" aria-label="Instagram"><img src="/public/fonts-awesome.brands/instagram.svg" width="30px" height="30px" alt="" /></a>
+                <a href="#" aria-label="LinkedIn"><img src="/public/fonts-awesome.brands/linkedin.svg" width="30px" height="30px" alt="" /></a>
+                 <a href="https://youtube.com/@byabasajjamatayo366?si=W6D1c83P2ED-Ehmo" aria-label="Youtube"><img src="/public/fonts-awesome.brands/youtube.svg" width="30px" height="30px" alt="" /></a>
+                <a href="https://www.tiktok.com/@byabasajjamatayo3?_t=ZM-8rlvjK7MISe&_r=1" aria-label="Tiktok"><img src="/public/fonts-awesome.brands/tiktok.svg" width="30px" height="30px" alt="" /></a>
+            </div>
+            </div>
+            <p>Created by byabasajja matayo ❤ from Uganda/hoima/lubale🤴🤴</p>
+            <div id="name">&reg;</div>
+        </div>
+        <div id="clock"></div>
+    </footer>
+    
+    <button class="dark-mode-toggle" aria-label="Toggle dark mode"><img src="https://github.com/matovuasuman/Connectonic.com/blob/codespace-cautious-tribble-7vw6gp9xqxqj3xvj7/public/Images /B1.jpg"></button>
+    <script src="Lock.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
