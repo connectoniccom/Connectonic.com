@@ -1,1 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Content Loader</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+            --warning-color: #d97706;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            background-color: #eff6ff;
+        }
+        .content-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            min-height: 400px;
+            position: relative;
+            background-color: #f8fafc;
+        }
+        .loader {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 0.25rem solid #e2e8f0;
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        .status.loading {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+        }
+        .status.error {
+            background-color: #fee2e2;
+            color: var(--error-color);
+        }
+        .status.success {
+            background-color: #dcfce7;
+            color: var(--success-color);
+        }
+        .status.warning {
+            background-color: #fef3c7;
+            color: var(--warning-color);
+        }
+        .timestamp {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+        #content-frame {
+            width: 100%;
+            min-height: 300px;
+            border: none;
+            background: white;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Professional Content Management System</h1>
+        <nav>
+            <a href="?id=dashboard" class="active">Dashboard</a>
+            <a href="?id=analytics">Analytics</a>
+            <a href="?id=reports">Reports</a>
+            <a href="?id=settings">Settings</a>
+        </nav>
+    </header>
 
+    <main class="content-container">
+        <div id="loading-indicator" class="loader"></div>
+        <div id="content-display"></div>
+        <div id="status-message" class="status loading">Initializing content system...</div>
+        <div class="timestamp" id="load-timestamp"></div>
+    </main>
+
+    <script>
+        // ======================
+        // Configuration
+        // ======================
+        const CONFIG = {
+            // Content sources configuration
+            contentSources: {
+                'dashboard': {
+                    title: 'Dashboard Overview',
+                    sources: [
+                        {
+                            type: 'js-module',
+                            url: '/js/dashboard.module.js',
+                            version: '1.2.0'
+                        },
+                        {
+                            type: 'iframe',
+                            url: '/embed/dashboard.html'
+                        },
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="fallback-content">
+                                    <h2>Dashboard Overview</h2>
+                                    <p>Key metrics and performance indicators would appear here.</p>
+                                    <p><strong>Last updated:</strong> <span id="dashboard-time">${new Date().toLocaleString()}</span></p>
+                                </div>
+                            `
+                        }
+                    ]
+                },
+                'analytics': {
+                    title: 'Analytics Console',
+                    sources: [
+                        {
+                            type: 'js-module',
+                            url: '/js/analytics.module.js',
+                            version: '2.1.3'
+                        },
+                        {
+                            type: 'iframe',
+                            url: '/embed/analytics.html'
+                        },
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="fallback-content">
+                                    <h2>Analytics Console</h2>
+                                    <p>Visitor statistics and engagement metrics would appear here.</p>
+                                    <div class="placeholder-chart" style="height: 200px; background: #f1f5f9; display: flex; justify-content: center; align-items: center;">
+                                        Chart Placeholder
+                                    </div>
+                                </div>
+                            `
+                        }
+                    ]
+                },
+                'reports': {
+                    title: 'Reports Center',
+                    sources: [
+                        {
+                            type: 'js-module',
+                            url: '/js/reports.module.js',
+                            version: '1.5.2'
+                        },
+                        {
+                            type: 'iframe',
+                            url: '/embed/reports.html'
+                        },
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="fallback-content">
+                                    <h2>Reports Center</h2>
+                                    <p>Generated reports and data exports would appear here.</p>
+                                    <ul>
+                                        <li>Monthly Performance Report</li>
+                                        <li>User Activity Summary</li>
+                                        <li>System Health Metrics</li>
+                                    </ul>
+                                </div>
+                            `
+                        }
+                    ]
+                },
+                'settings': {
+                    title: 'System Settings',
+                    sources: [
+                        {
+                            type: 'js-module',
+                            url: '/js/settings.module.js',
+                            version: '3.0.1'
+                        },
+                        {
+                            type: 'iframe',
+                            url: '/embed/settings.html'
+                        },
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="fallback-content">
+                                    <h2>System Settings</h2>
+                                    <p>Configuration options would appear here.</p>
+                                    <div class="settings-grid">
+                                        <div class="setting-item">
+                                            <label>Theme</label>
+                                            <select disabled>
+                                                <option>Light</option>
+                                                <option>Dark</option>
+                                            </select>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Notifications</label>
+                                            <input type="checkbox" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                        }
+                    ]
+                },
+                'default': {
+                    title: 'Content Not Available',
+                    sources: [
+                        {
+                            type: 'static',
+                            content: `
+                                <div class="error-content">
+                                    <h2>Content Not Found</h2>
+                                    <p>The requested content could not be loaded. Please try another section.</p>
+                                    <p>If this error persists, contact support with reference code: <code>ERR_${Date.now().toString(36).toUpperCase()}</code></p>
+                                </div>
+                            `
+                        }
+                    ]
+                }
+            },
+            
+            // System configuration
+            settings: {
+                cacheBusting: true,
+                loadTimeout: 8000, // 8 seconds
+                retryDelay: 1000,
+                maxRetries: 2
+            }
+        };
+
+        // ======================
+        // Core System
+        // ======================
+        class ContentLoader {
+            constructor() {
+                this.currentLoad = null;
+                this.retryCount = 0;
+                this.init();
+            }
+            
+            init() {
+                this.updateTimestamp();
+                this.setupNavigation();
+                this.loadContentForCurrentUrl();
+                window.addEventListener('popstate', () => this.loadContentForCurrentUrl());
+            }
+            
+            async loadContentForCurrentUrl() {
+                // Cancel any pending load
+                if (this.currentLoad && this.currentLoad.cancel) {
+                    this.currentLoad.cancel();
+                }
+                
+                const contentId = this.getContentIdFromUrl();
+                this.updateActiveNavLink(contentId);
+                await this.loadContent(contentId);
+            }
+            
+            getContentIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                const contentId = params.get('id');
+                return contentId && CONFIG.contentSources[contentId] ? contentId : 'dashboard';
+            }
+            
+            updateActiveNavLink(contentId) {
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(`id=${contentId}`)) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            async loadContent(contentId) {
+                this.showLoadingState();
+                this.retryCount = 0;
+                
+                const contentConfig = CONFIG.contentSources[contentId] || CONFIG.contentSources['default'];
+                document.title = `${contentConfig.title} | Professional CMS`;
+                
+                try {
+                    await this.attemptContentLoad(contentConfig);
+                } catch (error) {
+                    this.showErrorState(`Failed to load content: ${error.message}`);
+                    this.loadFallbackContent(contentConfig);
+                }
+            }
+            
+            async attemptContentLoad(contentConfig) {
+                const controller = new AbortController();
+                this.currentLoad = { cancel: () => controller.abort() };
+                
+                // Try each source in order until one succeeds
+                for (const source of contentConfig.sources) {
+                    try {
+                        switch (source.type) {
+                            case 'js-module':
+                                await this.loadJsModule(source);
+                                return;
+                                
+                            case 'iframe':
+                                await this.loadIframe(source);
+                                return;
+                                
+                            case 'static':
+                                this.loadStaticContent(source);
+                                return;
+                                
+                            default:
+                                continue;
+                        }
+                    } catch (error) {
+                        console.warn(`Failed to load ${source.type}:`, error.message);
+                        continue;
+                    }
+                }
+                
+                throw new Error('All content sources failed');
+            }
+            
+            async loadJsModule(source) {
+                const url = this.getCacheBustedUrl(source.url, source.version);
+                const timeout = CONFIG.settings.loadTimeout;
+                
+                await this.loadScript(url, timeout);
+                
+                // Verify the module initialized correctly
+                const moduleName = `init${source.url.split('/').pop().split('.')[0]}`;
+                if (typeof window[moduleName] === 'function') {
+                    window[moduleName](document.getElementById('content-display'));
+                    this.showSuccessState(`Loaded interactive module: ${source.url}`);
+                } else {
+                    throw new Error('Module initialization failed');
+                }
+            }
+            
+            async loadIframe(source) {
+                const url = this.getCacheBustedUrl(source.url);
+                const iframe = document.createElement('iframe');
+                iframe.id = 'content-frame';
+                iframe.src = url;
+                
+                const container = document.getElementById('content-display');
+                container.innerHTML = '';
+                container.appendChild(iframe);
+                
+                // Verify iframe loaded
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error('Iframe load timeout'));
+                    }, CONFIG.settings.loadTimeout);
+                    
+                    iframe.onload = () => {
+                        clearTimeout(timeout);
+                        resolve();
+                    };
+                    
+                    iframe.onerror = () => {
+                        clearTimeout(timeout);
+                        reject(new Error('Iframe load failed'));
+                    };
+                });
+                
+                this.showSuccessState(`Loaded embedded content: ${source.url}`);
+            }
+            
+            loadStaticContent(source) {
+                const container = document.getElementById('content-display');
+                container.innerHTML = source.content;
+                this.showWarningState('Showing static content (interactive features unavailable)');
+            }
+            
+            loadFallbackContent(contentConfig) {
+                const staticSource = contentConfig.sources.find(s => s.type === 'static') || 
+                                    CONFIG.contentSources['default'].sources[0];
+                this.loadStaticContent(staticSource);
+            }
+            
+            async loadScript(url, timeout = 5000) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.type = 'module';
+                    
+                    const timer = setTimeout(() => {
+                        reject(new Error(`Script load timeout: ${url}`));
+                        document.head.removeChild(script);
+                    }, timeout);
+                    
+                    script.onload = () => {
+                        clearTimeout(timer);
+                        resolve();
+                    };
+                    
+                    script.onerror = () => {
+                        clearTimeout(timer);
+                        reject(new Error(`Script load failed: ${url}`));
+                    };
+                    
+                    document.head.appendChild(script);
+                });
+            }
+            
+            getCacheBustedUrl(url, version) {
+                if (!CONFIG.settings.cacheBusting) return url;
+                
+                const bust = version || Date.now();
+                return url.includes('?') ? `${url}&v=${bust}` : `${url}?v=${bust}`;
+            }
+            
+            showLoadingState() {
+                document.getElementById('loading-indicator').style.display = 'block';
+                document.getElementById('content-display').innerHTML = '';
+                this.updateStatus('Loading content...', 'loading');
+            }
+            
+            showSuccessState(message) {
+                document.getElementById('loading-indicator').style.display = 'none';
+                this.updateStatus(message, 'success');
+                this.updateTimestamp();
+            }
+            
+            showWarningState(message) {
+                document.getElementById('loading-indicator').style.display = 'none';
+                this.updateStatus(message, 'warning');
+                this.updateTimestamp();
+            }
+            
+            showErrorState(message) {
+                document.getElementById('loading-indicator').style.display = 'none';
+                this.updateStatus(message, 'error');
+                this.updateTimestamp();
+            }
+            
+            updateStatus(message, type = 'loading') {
+                const statusElement = document.getElementById('status-message');
+                statusElement.textContent = message;
+                statusElement.className = `status ${type}`;
+            }
+            
+            updateTimestamp() {
+                document.getElementById('load-timestamp').textContent = 
+                    `Last updated: ${new Date().toLocaleString()}`;
+            }
+            
+            setupNavigation() {
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        history.pushState(null, '', link.href);
+                        this.loadContentForCurrentUrl();
+                    });
+                });
+            }
+        }
+
+        // ======================
+        // Initialize the system
+        // ======================
+        document.addEventListener('DOMContentLoaded', () => {
+            new ContentLoader();
+        });
+    </script>
+</body>
+  </html>
