@@ -1,11 +1,2 @@
-import React from 'react';
-
-function App() {
-  return (
-    <div>
-      <h1>Hello, React!</h1>
-    </div>
-  );
-}
-
-export default App;
+// This file is not used in the Next.js App Router structure.
+// You can safely delete it.
