@@ -4,6 +4,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  overflow-x: hidden; /* Prevents horizontal scrollbar */
 }
 
 .App {
@@ -13,13 +14,14 @@ body {
 /* Sidebar Styles */
 .sidebar {
   height: 100vh;
-  width: 220px;
+  width: 250px; /* A bit wider for better spacing */
   position: fixed;
   top: 0;
   left: 0;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
-  padding-top: 20px;
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width */
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
   z-index: 100;
@@ -27,10 +29,31 @@ body {
 
 .sidebar.open {
   transform: translateX(0);
+  box-shadow: 3px 0px 15px rgba(0,0,0,0.1); /* Add a subtle shadow */
 }
 
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #343a40;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+
 .sidebar-header {
-  padding: 0 20px 20px 20px;
+  padding-bottom: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
   font-size: 1.5rem;
   font-weight: bold;
@@ -45,10 +68,12 @@ body {
 
 .sidebar-nav li a {
   display: block;
-  padding: 10px 20px;
+  padding: 12px 15px;
+  margin: 5px 0;
   text-decoration: none;
   color: #343a40;
   font-weight: 500;
+  border-radius: 8px; /* Rounded corners for links */
 }
 
 .sidebar-nav li a:hover {
@@ -58,16 +83,24 @@ body {
 /* Main Content Styles */
 .main-content {
   padding: 20px;
-  width: 100%; /* Take full width */
+  width: 100%;
 }
 
-.toggle-button {
-  background-color: #343a40;
-  color: white;
-  border: none;
-  padding: 10px 15px;
+/* Hamburger Icon Styles */
+.hamburger-icon {
+  width: 35px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   cursor: pointer;
-  font-size: 1rem;
-  border-radius: 5px;
   margin-bottom: 20px;
+  padding: 5px; /* Add some padding to make it easier to click */
+}
+
+.hamburger-icon div {
+  width: 100%;
+  height: 4px;
+  background-color: #343a40;
+  border-radius: 2px;
 }
