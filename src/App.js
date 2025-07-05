@@ -1,9 +1,16 @@
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="App">
-      <nav className="sidebar">
+      <nav className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2>My App</h2>
         </div>
@@ -20,6 +27,9 @@ function App() {
         </ul>
       </nav>
       <main className="main-content">
+        <button onClick={toggleSidebar} className="toggle-button">
+          {isOpen ? 'Close' : 'Open'} Menu
+        </button>
         <h1>Welcome!</h1>
         <p>This is the main content area. Select a page from the sidebar.</p>
       </main>

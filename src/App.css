@@ -1,4 +1,4 @@
-/* Reset default styles and remove unused App-header styles */
+/* Reset default styles and base setup */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -20,6 +20,13 @@ body {
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
   padding-top: 20px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 100;
+}
+
+.sidebar.open {
+  transform: translateX(0);
 }
 
 .sidebar-header {
@@ -50,6 +57,17 @@ body {
 
 /* Main Content Styles */
 .main-content {
-  margin-left: 220px; /* Same as sidebar width */
   padding: 20px;
+  width: 100%; /* Take full width */
+}
+
+.toggle-button {
+  background-color: #343a40;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
