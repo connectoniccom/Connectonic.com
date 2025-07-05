@@ -1,9 +1,20 @@
 'use server';
+/**
+ * @fileOverview A music recommendation AI agent.
+ *
+ * - recommendSongs - A function that handles the song recommendation process.
+ * - RecommendSongsInput - The input type for the recommendSongs function.
+ * - RecommendSongsOutput - The return type for the recommendSongs function.
+ */
 
+import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import { defineFlow, definePrompt } from 'genkit/flow';
-import { geminiPro } from '@genkit-ai/googleai';
-import { generate } from 'genkit/ai';
+
+const RecommendSongsInputSchema = z.object({
+  instrument: z.string().describe("The user's favorite instrument"),
+  genre: z.string().describe("The user's favorite music genre"),
+});
+export type RecommendSongsInput = z.infer<typeof RecommendSongsInputSchema>;
 
 export const RecommendSongsOutputSchema = z.object({
   songs: z.array(z.object({
@@ -16,36 +27,27 @@ export const RecommendSongsOutputSchema = z.object({
 });
 export type RecommendSongsOutput = z.infer<typeof RecommendSongsOutputSchema>;
 
-const recommendSongsPrompt = definePrompt({
+const recommendSongsPrompt = ai.definePrompt({
   name: 'recommendSongsPrompt',
-  inputSchema: z.object({
-    instrument: z.string(),
-    genre: z.string(),
-  }),
-  output: {
-    format: 'json',
-    schema: RecommendSongsOutputSchema,
-  },
+  input: { schema: RecommendSongsInputSchema },
+  output: { schema: RecommendSongsOutputSchema },
   prompt: `Recommend 5 songs for a user who likes {{instrument}} and {{genre}} music.`,
 });
 
-export const recommendSongsFlow = defineFlow(
+const recommendSongsFlow = ai.defineFlow(
   {
     name: 'recommendSongsFlow',
-    inputSchema: z.object({
-      instrument: z.string(),
-      genre: z.string(),
-    }),
+    inputSchema: RecommendSongsInputSchema,
     outputSchema: RecommendSongsOutputSchema,
   },
   async (input) => {
-    const llmResponse = await generate({
+    const llmResponse = await ai.generate({
       prompt: recommendSongsPrompt,
       input: input,
-      model: geminiPro,
+      model: 'googleai/gemini-pro',
     });
 
-    const output = llmResponse.output();
+    const output = llmResponse.output;
     if (!output) {
       throw new Error('No output from LLM');
     }
@@ -53,6 +55,6 @@ export const recommendSongsFlow = defineFlow(
   }
 );
 
-export async function recommendSongs(input: { instrument: string, genre: string }): Promise<RecommendSongsOutput> {
-  return await recommendSongsFlow.run(input);
+export async function recommendSongs(input: RecommendSongsInput): Promise<RecommendSongsOutput> {
+  return recommendSongsFlow(input);
 }
