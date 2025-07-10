@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Connectonic.com/static/css/main.ffa633e8.css",
-    "main.js": "/Connectonic.com/static/js/main.287558f8.js",
+    "main.css": "/Connectonic.com/static/css/main.403e447c.css",
+    "main.js": "/Connectonic.com/static/js/main.2ddc9d80.js",
     "static/js/453.ebb04a9e.chunk.js": "/Connectonic.com/static/js/453.ebb04a9e.chunk.js",
     "index.html": "/Connectonic.com/index.html",
-    "main.ffa633e8.css.map": "/Connectonic.com/static/css/main.ffa633e8.css.map",
-    "main.287558f8.js.map": "/Connectonic.com/static/js/main.287558f8.js.map",
+    "main.403e447c.css.map": "/Connectonic.com/static/css/main.403e447c.css.map",
+    "main.2ddc9d80.js.map": "/Connectonic.com/static/js/main.2ddc9d80.js.map",
     "453.ebb04a9e.chunk.js.map": "/Connectonic.com/static/js/453.ebb04a9e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ffa633e8.css",
-    "static/js/main.287558f8.js"
+    "static/css/main.403e447c.css",
+    "static/js/main.2ddc9d80.js"
   ]
 }
