@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/Connectonic.com/static/css/main.1585652d.css",
-    "main.js": "/Connectonic.com/static/js/main.81378a72.js",
+    "main.css": "/Connectonic.com/static/css/main.c4e50c11.css",
+    "main.js": "/Connectonic.com/static/js/main.a49e587b.js",
     "static/js/206.c0e40567.chunk.js": "/Connectonic.com/static/js/206.c0e40567.chunk.js",
     "index.html": "/Connectonic.com/index.html"
   },
   "entrypoints": [
-    "static/css/main.1585652d.css",
-    "static/js/main.81378a72.js"
+    "static/css/main.c4e50c11.css",
+    "static/js/main.a49e587b.js"
   ]
 }
