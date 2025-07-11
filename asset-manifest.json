@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/Connectonic.com/static/css/main.e3fa772c.css",
-    "main.js": "/Connectonic.com/static/js/main.1c2c43f5.js",
+    "main.css": "/Connectonic.com/static/css/main.5a8d1f3d.css",
+    "main.js": "/Connectonic.com/static/js/main.3eff1d1b.js",
     "static/js/453.ebb04a9e.chunk.js": "/Connectonic.com/static/js/453.ebb04a9e.chunk.js",
+    "static/media/logo.svg": "/Connectonic.com/static/media/logo.609d0e3e3c07410338b6e43c93e43be3.svg",
     "index.html": "/Connectonic.com/index.html",
-    "main.e3fa772c.css.map": "/Connectonic.com/static/css/main.e3fa772c.css.map",
-    "main.1c2c43f5.js.map": "/Connectonic.com/static/js/main.1c2c43f5.js.map",
+    "main.5a8d1f3d.css.map": "/Connectonic.com/static/css/main.5a8d1f3d.css.map",
+    "main.3eff1d1b.js.map": "/Connectonic.com/static/js/main.3eff1d1b.js.map",
     "453.ebb04a9e.chunk.js.map": "/Connectonic.com/static/js/453.ebb04a9e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3fa772c.css",
-    "static/js/main.1c2c43f5.js"
+    "static/css/main.5a8d1f3d.css",
+    "static/js/main.3eff1d1b.js"
   ]
 }
