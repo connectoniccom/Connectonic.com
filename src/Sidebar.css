@@ -4,12 +4,17 @@
   position: fixed;
   z-index: 1000;
   top: 0;
-  left: 0;
+  left: -250px; /* Hidden by default */
   background-color: var(--sidebar-bg);
   overflow-x: hidden;
-  padding-top: 20px;
+  padding-top: 60px; /* Space for content below the top bar */
+  transition: 0.3s;
   display: flex;
   flex-direction: column;
+}
+
+.sidebar.open {
+  left: 0; /* Shown when open */
 }
 
 .sidebar a {
