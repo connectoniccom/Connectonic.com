@@ -24,6 +24,31 @@ function App() {
     document.body.className = theme + '-theme';
   }, [theme]);
 
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    const handleKeyDown = (e) => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+        (e.ctrlKey && e.key === 'U')
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="App">
       <button className="sidebar-toggle" onClick={toggleSidebar}>
@@ -35,7 +60,7 @@ function App() {
         currentTheme={theme} 
         closeSidebar={closeSidebar} 
       />
-      <div id="main-content">
+      <div id="main-content" onClick={closeSidebar}>
         <h1>Welcome to My App</h1>
         <p>Here is your content. The theme is currently {theme}.</p>
       </div>
