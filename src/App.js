@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Sidebar from './components/Sidebar';
 import './App.css';
 
 function App() {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        <div className="slash"></div>
+        <div className="slash"></div>
+        <div className="slash"></div>
+      </button>
+      <Sidebar isOpen={isSidebarOpen} />
+      <div className={`content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+        <header className="App-header">
+          <h1>Welcome to Your App</h1>
+          <p>Click the button in the top left to open the navigation menu.</p>
+        </header>
+      </div>
     </div>
   );
 }
