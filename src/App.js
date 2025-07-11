@@ -10,6 +10,12 @@ function App() {
     setSidebarOpen(!isSidebarOpen);
   };
 
+  const closeSidebar = () => {
+    if (isSidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
@@ -23,7 +29,12 @@ function App() {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         <span className="hamburger-icon"></span>
       </button>
-      <Sidebar isOpen={isSidebarOpen} toggleTheme={toggleTheme} currentTheme={theme} />
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        toggleTheme={toggleTheme} 
+        currentTheme={theme} 
+        closeSidebar={closeSidebar} 
+      />
       <div id="main-content">
         <h1>Welcome to My App</h1>
         <p>Here is your content. The theme is currently {theme}.</p>
