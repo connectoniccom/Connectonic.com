@@ -1,29 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Sidebar from './Sidebar';
 
 function App() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState('light');
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
-  const closeSidebar = () => {
-    if (isSidebarOpen) {
-      setSidebarOpen(false);
-    }
-  };
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
-
-  useEffect(() => {
-    document.body.className = theme + '-theme';
-  }, [theme]);
-
   useEffect(() => {
     const handleContextMenu = (e) => {
       e.preventDefault();
@@ -51,18 +30,10 @@ function App() {
 
   return (
     <div className="App">
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
-        <span className="hamburger-icon"></span>
-      </button>
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        toggleTheme={toggleTheme} 
-        currentTheme={theme} 
-        closeSidebar={closeSidebar} 
-      />
-      <div id="main-content" onClick={closeSidebar}>
+      <Sidebar />
+      <div id="main-content">
         <h1>Welcome to My App</h1>
-        <p>Here is your content. The theme is currently {theme}.</p>
+        <p>Here is your content.</p>
       </div>
     </div>
   );
