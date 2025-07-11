@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
 function Sidebar({ isOpen, toggleSidebar }) {
@@ -11,10 +12,10 @@ function Sidebar({ isOpen, toggleSidebar }) {
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <button className="close-btn" onClick={toggleSidebar}>&times;</button>
-      <a href="#home" onClick={handleLinkClick}>Home</a>
-      <a href="#services" onClick={handleLinkClick}>Services</a>
-      <a href="#clients" onClick={handleLinkClick}>Clients</a>
-      <a href="#contact" onClick={handleLinkClick}>Contact</a>
+      <Link to="/" onClick={handleLinkClick}>Home</Link>
+      <Link to="/services" onClick={handleLinkClick}>Services</Link>
+      <Link to="/clients" onClick={handleLinkClick}>Clients</Link>
+      <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
     </div>
   );
 }
