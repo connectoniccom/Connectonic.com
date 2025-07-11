@@ -1,3 +1,24 @@
+:root, .light-theme {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --sidebar-bg: #f1f1f1;
+  --sidebar-text: #111;
+  --sidebar-hover-text: #555;
+  --button-bg: transparent;
+  --button-text: #111;
+}
+
+.dark-theme {
+  --background-color: #282c34;
+  --text-color: #ffffff;
+  --sidebar-bg: #111;
+  --sidebar-text: #f1f1f1;
+  --sidebar-hover-text: #ccc;
+  --button-bg: transparent;
+  --button-text: #f1f1f1;
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +26,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
 }
 
 code {
