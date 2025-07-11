@@ -19,13 +19,9 @@ body {
 }
 
 #main-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100vh;
   padding: 20px;
+  padding-top: 80px; /* Pushes content down from the top */
+  text-align: center;
   transition: margin-left 0.3s;
 }
 
