@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Sidebar from './Sidebar';
+import Home from './pages/Home';
+import Services from './pages/Services';
+import Clients from './pages/Clients';
+import Contact from './pages/Contact';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,32 +46,12 @@ function App() {
       </button>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <div id="main-content">
-        <section id="home" className="content-section">
-          <h1>Welcome Home</h1>
-          <p>This is the main landing area of our application. Explore the different sections using the sidebar.</p>
-          <img src="https://placehold.co/600x400.png" alt="placeholder" data-ai-hint="futuristic city" />
-        </section>
-        <section id="services" className="content-section">
-          <h2>Our Services</h2>
-          <p>We offer a wide range of services to meet your needs. Our team is dedicated to providing the highest quality solutions.</p>
-          <ul>
-            <li>Web Development</li>
-            <li>Mobile App Development</li>
-            <li>Cloud Solutions</li>
-            <li>UI/UX Design</li>
-          </ul>
-        </section>
-        <section id="clients" className="content-section">
-          <h2>Our Clients</h2>
-          <p>We have had the privilege of working with a diverse range of clients from various industries.</p>
-          <p>Our commitment to excellence has allowed us to build long-lasting relationships.</p>
-        </section>
-        <section id="contact" className="content-section">
-          <h2>Contact Us</h2>
-          <p>Get in touch with us! We would love to hear from you.</p>
-          <p>Email: contact@example.com</p>
-          <p>Phone: (123) 456-7890</p>
-        </section>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </div>
     </div>
   );
