@@ -4,17 +4,17 @@
   position: fixed;
   z-index: 1000;
   top: 0;
-  left: -250px; /* Hidden by default */
+  left: -250px;
   background-color: var(--sidebar-bg);
   overflow-x: hidden;
-  padding-top: 60px; /* Space for content below the top bar */
+  padding-top: 60px;
   transition: 0.3s;
   display: flex;
   flex-direction: column;
 }
 
 .sidebar.open {
-  left: 0; /* Shown when open */
+  left: 0;
 }
 
 .sidebar a {
@@ -29,4 +29,19 @@
 .sidebar a:hover {
   background-color: var(--sidebar-hover-bg);
   color: var(--sidebar-hover-text);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 36px;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.close-btn:hover {
+    color: var(--sidebar-hover-text);
 }

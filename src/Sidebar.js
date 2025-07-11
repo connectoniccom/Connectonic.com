@@ -3,7 +3,6 @@ import './Sidebar.css';
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const handleLinkClick = () => {
-    // Close sidebar when a link is clicked
     if (isOpen) {
       toggleSidebar();
     }
@@ -11,6 +10,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <button className="close-btn" onClick={toggleSidebar}>&times;</button>
       <a href="#home" onClick={handleLinkClick}>Home</a>
       <a href="#services" onClick={handleLinkClick}>Services</a>
       <a href="#clients" onClick={handleLinkClick}>Clients</a>
