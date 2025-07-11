@@ -12,7 +12,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <button className="close-btn" onClick={toggleSidebar}>&times;</button>
-      <Link to="/" onClick={handleLinkClick}>Home</Link>
+      <Link to="/Connectonic.com/" onClick={handleLinkClick}>Home</Link>
       <Link to="/services" onClick={handleLinkClick}>Services</Link>
       <Link to="/clients" onClick={handleLinkClick}>Clients</Link>
       <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
