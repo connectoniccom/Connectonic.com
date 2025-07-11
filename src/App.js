@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Sidebar from './Sidebar';
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     const handleContextMenu = (e) => {
       e.preventDefault();
@@ -30,10 +36,14 @@ function App() {
 
   return (
     <div className="App">
-      <Sidebar />
+      <button className="open-btn" onClick={toggleSidebar}>
+        &#9776;
+      </button>
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <div id="main-content">
         <h1>Welcome to My App</h1>
-        <p>Here is your content.</p>
+        <p>This is the main content area. It will remain in place when the sidebar is opened.</p>
+        <p>The application is set to a dark theme by default.</p>
       </div>
     </div>
   );
