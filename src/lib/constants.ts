@@ -1,0 +1,16 @@
+export const MUSIC_GENRES = [
+  "Pop",
+  "Rock",
+  "Hip Hop",
+  "Jazz",
+  "Blues",
+  "Classical",
+  "Electronic",
+  "R&B",
+  "Country",
+  "Reggae",
+  "Folk",
+  "Metal",
+  "Ambient",
+  "Lo-fi",
+];
