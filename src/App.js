@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Sidebar from './Sidebar';
 import Home from './pages/Home';
@@ -40,20 +40,22 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <button className="open-btn" onClick={toggleSidebar}>
-        &#9776;
-      </button>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <div id="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/clients" element={<Clients />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+    <Router>
+      <div className="App">
+        <button className="open-btn" onClick={toggleSidebar}>
+          &#9776;
+        </button>
+        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <div id="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
