@@ -1,9 +1,9 @@
 import React from 'react';
 import './Sidebar.css';
 
-function Sidebar({ isOpen, toggleSidebar }) {
+function Sidebar() {
   return (
-    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+    <div className="sidebar open">
       <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#clients">Clients</a>
