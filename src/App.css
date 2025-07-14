@@ -26,6 +26,8 @@ body {
   padding: 20px;
   padding-top: 80px; /* Pushes content down from the top */
   transition: margin-left 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .content-section {
