@@ -48,7 +48,7 @@ function App() {
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <div id="main-content">
           <Routes>
-            <Route path="/Connectonic.com/" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/contact" element={<Contact />} />
