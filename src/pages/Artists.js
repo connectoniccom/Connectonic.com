@@ -42,10 +42,10 @@ function Artists() {
                   <li key={trackIndex} className="track-item">
                     <span className="track-title">{track.title}</span>
                     <div className="download-buttons">
-                      <a href={`${BACKEND_URL}/download/audio/${track.title}.mp3`} className="download-btn" download>
+                      <a href={`${BACKEND_URL}/download/audio/${track.title}.mp3`} className="download-btn" target="_blank" rel="noopener noreferrer">
                         MP3
                       </a>
-                      <a href={`${BACKEND_URL}/download/video/${track.title}.mp4`} className="download-btn" download>
+                      <a href={`${BACKEND_URL}/download/video/${track.title}.mp4`} className="download-btn" target="_blank" rel="noopener noreferrer">
                         MP4
                       </a>
                     </div>
