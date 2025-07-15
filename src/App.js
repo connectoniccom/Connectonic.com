@@ -9,10 +9,20 @@ import Contact from './pages/Contact';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState(null);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
 
   useEffect(() => {
     const handleContextMenu = (e) => {
@@ -39,13 +49,37 @@ function App() {
     };
   }, []);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleInstallClick = () => {
+    if (!installPrompt) {
+      return;
+    }
+    installPrompt.prompt();
+    installPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      setInstallPrompt(null);
+    });
+  };
+
   return (
     <Router>
       <div className="App">
         <button className="open-btn" onClick={toggleSidebar}>
           &#9776;
         </button>
-        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Sidebar 
+          isOpen={sidebarOpen} 
+          toggleSidebar={toggleSidebar}
+          installPrompt={installPrompt}
+          onInstall={handleInstallClick}
+        />
         <div id="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
