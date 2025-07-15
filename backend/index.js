@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
   res.send('Backend server is running.');
 });
 
-app.use(express.static(path.join(__dirname, 'media')));
+app.use('/media', express.static(path.join(__dirname, 'media')));
 
 app.listen(port, () => {
     console.log(`Backend server listening at http://localhost:${port}`);
