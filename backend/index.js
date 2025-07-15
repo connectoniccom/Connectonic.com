@@ -1,22 +1,46 @@
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const port = 3001;
 
 app.use(cors());
+app.use(express.json());
 
-// Serve static files from the 'media' directory
-app.use('/media', express.static(path.join(__dirname, 'media')));
+const artistsData = [
+  {
+    name: 'Echoes in Ether',
+    bio: 'An electronic music producer known for ambient soundscapes and ethereal beats.',
+    tracks: [
+      { title: 'Celestial Drift' },
+      { title: 'Midnight Signal' },
+      { title: 'Digital Aurora' }
+    ]
+  },
+  {
+    name: 'Crimson Cascade',
+    bio: 'A rock band that blends classic rock riffs with modern alternative energy.',
+    tracks: [
+      { title: 'Faded Photograph' },
+      { title: 'Renegade Heart' },
+      { title: 'Static Bloom' }
+    ]
+  }
+];
 
-app.get('/', (req, res) => {
-  res.send('Backend server is running. Ready to serve files from the /media directory.');
+// API endpoint to get artist data
+app.get('/api/artists', (req, res) => {
+  res.json(artistsData);
 });
 
-// Handle 404 for any other route - provides a clearer error for missing files
+// Root path response
+app.get('/', (req, res) => {
+  res.send('Backend server is running. Ready to serve API data from /api/artists.');
+});
+
+// Handle 404 for any other route
 app.use((req, res) => {
-  res.status(404).send('File not found. Make sure the media file exists in the backend/media directory.');
+  res.status(404).send('Endpoint not found.');
 });
 
 
