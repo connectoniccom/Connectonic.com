@@ -4,6 +4,7 @@ import './App.css';
 import Sidebar from './Sidebar';
 import Home from './pages/Home';
 import Artists from './pages/Artists';
+import News from './pages/News';
 import InstallNotification from './InstallNotification';
 
 function App() {
@@ -90,6 +91,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/artists" element={<Artists />} />
+            <Route path="/news" element={<News />} />
           </Routes>
         </div>
       </div>

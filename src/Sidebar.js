@@ -14,6 +14,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
       <button className="close-btn" onClick={toggleSidebar}>&times;</button>
       <Link to="/" onClick={handleLinkClick}>Home</Link>
       <Link to="/artists" onClick={handleLinkClick}>Artists</Link>
+      <Link to="/news" onClick={handleLinkClick}>News</Link>
     </div>
   );
 }
