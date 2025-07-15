@@ -33,12 +33,12 @@ app.get('/api/artists', (req, res) => {
   res.json(artistsData);
 });
 
-// Root path response
+// Root path response - THIS MUST COME BEFORE THE CATCH-ALL
 app.get('/', (req, res) => {
   res.send('Backend server is running. Ready to serve API data from /api/artists.');
 });
 
-// Handle 404 for any other route
+// Handle 404 for any other route - THIS MUST BE LAST
 app.use((req, res) => {
   res.status(404).send('Endpoint not found.');
 });
