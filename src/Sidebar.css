@@ -17,7 +17,7 @@
   left: 0;
 }
 
-.sidebar a, .sidebar .install-btn {
+.sidebar a {
   padding: 12px 16px;
   text-decoration: none;
   font-size: 22px;
@@ -31,15 +31,9 @@
   width: 100%;
 }
 
-.sidebar a:hover, .sidebar .install-btn:hover {
+.sidebar a:hover {
   background-color: var(--sidebar-hover-bg);
   color: var(--sidebar-hover-text);
-}
-
-.install-btn {
-  background-color: var(--primary-accent) !important;
-  color: var(--sidebar-bg) !important;
-  font-weight: bold;
 }
 
 .close-btn {
