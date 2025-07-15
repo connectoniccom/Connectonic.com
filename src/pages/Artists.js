@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Artists.css';
 
-const BACKEND_URL = 'http://localhost:3001';
-
 function Artists() {
   const [artistsData, setArtistsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/artists`)
+    fetch('/api/artists')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
