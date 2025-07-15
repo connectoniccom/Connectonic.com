@@ -1,34 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Artists.css';
-
-const artistsData = [
-  {
-    name: 'Echoes in Ether',
-    bio: 'An electronic music producer known for ambient soundscapes and ethereal beats.',
-    tracks: [
-      { title: 'Celestial Drift' },
-      { title: 'Midnight Signal' },
-      { title: 'Digital Aurora' }
-    ]
-  },
-  {
-    name: 'Crimson Cascade',
-    bio: 'A rock band that blends classic rock riffs with modern alternative energy.',
-    tracks: [
-      { title: 'Faded Photograph' },
-      { title: 'Renegade Heart' },
-      { title: 'Static Bloom' }
-    ]
-  }
-];
 
 const BACKEND_URL = 'http://localhost:3001';
 
 function Artists() {
+  const [artistsData, setArtistsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/artists`)
+      .then(response => response.json())
+      .then(data => {
+        setArtistsData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching artists:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="artists" className="content-section">
+        <h2>Artists</h2>
+        <p>Loading artists...</p>
+      </section>
+    );
+  }
+
   return (
     <section id="artists" className="content-section">
       <h2>Artists</h2>
-      <p>Discover music and videos from our talented artists. Download your favorites.</p>
+      <p>Discover music from our talented artists, served directly from the backend.</p>
       <div className="artists-container">
         {artistsData.map((artist, index) => (
           <div key={index} className="artist-card">
@@ -40,14 +44,6 @@ function Artists() {
                 {artist.tracks.map((track, trackIndex) => (
                   <li key={trackIndex} className="track-item">
                     <span className="track-title">{track.title}</span>
-                    <div className="download-buttons">
-                      <a href={`${BACKEND_URL}/media/audio/${track.title}.mp3`} className="download-btn" target="_blank" rel="noopener noreferrer">
-                        MP3
-                      </a>
-                      <a href={`${BACKEND_URL}/media/video/${track.title}.mp4`} className="download-btn" target="_blank" rel="noopener noreferrer">
-                        MP4
-                      </a>
-                    </div>
                   </li>
                 ))}
               </ul>
