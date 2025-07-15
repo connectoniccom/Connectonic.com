@@ -34,7 +34,7 @@ app.get('/api/artists', (req, res) => {
 });
 
 // Root path response - THIS MUST COME BEFORE THE CATCH-ALL
-app.get('/', (req, res) => {
+app.get('.', (req, res) => {
   res.send('Backend server is running. Ready to serve API data from /api/artists.');
 });
 
