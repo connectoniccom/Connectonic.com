@@ -6,7 +6,7 @@ function Artists() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/artists')
+    fetch('http://localhost:3001/api/artists')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
