@@ -9,7 +9,12 @@ function Artists() {
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/artists`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
         setArtistsData(data);
         setLoading(false);
@@ -25,6 +30,15 @@ function Artists() {
       <section id="artists" className="content-section">
         <h2>Artists</h2>
         <p>Loading artists...</p>
+      </section>
+    );
+  }
+
+  if (!artistsData.length) {
+    return (
+      <section id="artists" className="content-section">
+        <h2>Artists</h2>
+        <p>No artists found. Make sure the backend server is running.</p>
       </section>
     );
   }
