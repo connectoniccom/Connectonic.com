@@ -5,6 +5,8 @@ import Sidebar from './Sidebar';
 import Home from './pages/Home';
 import Artists from './pages/Artists';
 import News from './pages/News';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import InstallNotification from './InstallNotification';
 
 function App() {
@@ -92,6 +94,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/news" element={<News />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </div>

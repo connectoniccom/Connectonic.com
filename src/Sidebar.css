@@ -50,3 +50,9 @@
 .close-btn:hover {
     color: var(--sidebar-hover-text);
 }
+
+.sidebar-divider {
+  height: 1px;
+  background-color: #4e4e50;
+  margin: 10px 15px;
+}

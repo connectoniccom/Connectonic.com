@@ -15,6 +15,9 @@ function Sidebar({ isOpen, toggleSidebar }) {
       <Link to="/" onClick={handleLinkClick}>Home</Link>
       <Link to="/artists" onClick={handleLinkClick}>Artists</Link>
       <Link to="/news" onClick={handleLinkClick}>News</Link>
+      <div className="sidebar-divider"></div>
+      <Link to="/login" onClick={handleLinkClick}>Login</Link>
+      <Link to="/register" onClick={handleLinkClick}>Register</Link>
     </div>
   );
 }
