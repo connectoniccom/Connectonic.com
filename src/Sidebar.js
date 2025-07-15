@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
-function Sidebar({ isOpen, toggleSidebar, installPrompt, onInstall }) {
+function Sidebar({ isOpen, toggleSidebar }) {
   const handleLinkClick = () => {
     if (isOpen) {
       toggleSidebar();
@@ -16,11 +16,6 @@ function Sidebar({ isOpen, toggleSidebar, installPrompt, onInstall }) {
       <Link to="/services" onClick={handleLinkClick}>Services</Link>
       <Link to="/clients" onClick={handleLinkClick}>Clients</Link>
       <Link to="/contact" onClick={handleLinkClick}>Contact</Link>
-      {installPrompt && (
-        <button className="install-btn" onClick={onInstall}>
-          Install App
-        </button>
-      )}
     </div>
   );
 }

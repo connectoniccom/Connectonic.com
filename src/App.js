@@ -6,15 +6,21 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import Clients from './pages/Clients';
 import Contact from './pages/Contact';
+import InstallNotification from './InstallNotification';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState(null);
+  const [showInstallNotification, setShowInstallNotification] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setInstallPrompt(e);
+      setShowInstallNotification(true);
+      setTimeout(() => {
+        setShowInstallNotification(false);
+      }, 6000);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -65,6 +71,7 @@ function App() {
         console.log('User dismissed the install prompt');
       }
       setInstallPrompt(null);
+      setShowInstallNotification(false);
     });
   };
 
@@ -77,9 +84,10 @@ function App() {
         <Sidebar 
           isOpen={sidebarOpen} 
           toggleSidebar={toggleSidebar}
-          installPrompt={installPrompt}
-          onInstall={handleInstallClick}
         />
+        {showInstallNotification && installPrompt && (
+          <InstallNotification onInstall={handleInstallClick} />
+        )}
         <div id="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
