@@ -204,5 +204,5 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Backend server listening at http://localhost:${port}`);
+ console.log("Welcome to the backend");
 });
