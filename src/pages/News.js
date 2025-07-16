@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './News.css';
 
+const API_BASE_URL = 'http://localhost:3001';
+
 function News() {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/news')
+    fetch(`${API_BASE_URL}/api/news`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
