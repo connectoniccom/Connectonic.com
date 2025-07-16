@@ -18,14 +18,16 @@ const port = 3001;
 const users = [];
 
 // --- Middleware Setup ---
+// Allow requests from any origin for development purposes.
+// For production, you would want to restrict this to your specific frontend URL.
 app.use(cors({
-  origin: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/', // Allow frontend to access
+  origin: true,
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'a_default_secret_key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }));
@@ -51,7 +53,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 
 // Google Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID, 
+    clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
   },
@@ -68,7 +70,7 @@ passport.use(new GoogleStrategy({
 
 // Facebook Strategy
 passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID, 
+    clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
   },
@@ -84,7 +86,7 @@ passport.use(new FacebookStrategy({
 
 // GitHub Strategy
 passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID, 
+    clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
   },
@@ -130,6 +132,9 @@ const newsData = [
 // --- Authentication Routes ---
 app.post('/api/register', (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
   if (users.find(u => u.email === email)) {
     return res.status(400).json({ message: 'User already exists' });
   }
@@ -137,6 +142,8 @@ app.post('/api/register', (req, res) => {
     if (err) throw err;
     const newUser = { id: Date.now().toString(), email: email, password: hash, provider: 'local' };
     users.push(newUser);
+    console.log('User registered:', newUser);
+    console.log('All users:', users);
     res.status(201).json({ message: 'User created successfully' });
   });
 });
@@ -148,7 +155,7 @@ app.post('/api/login', passport.authenticate('local'), (req, res) => {
 app.get('/api/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) { return next(err); }
-    res.redirect('/');
+    res.redirect('https://connectoniccom.github.io/Connect.world/');
   });
 });
 
@@ -159,19 +166,19 @@ app.get('/api/current_user', (req, res) => {
 // Google Auth Routes
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('http://localhost:3000/'); // Redirect to home on success
+  res.redirect('https://connectoniccom.github.io/Connect.world/');
 });
 
 // Facebook Auth Routes
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('http://localhost:3000/');
+  res.redirect('https://connectoniccom.github.io/Connect.world/');
 });
 
 // GitHub Auth Routes
 app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('http://localhost:3000/');
+  res.redirect('https://connectoniccom.github.io/Connect.world/');
 });
 
 
