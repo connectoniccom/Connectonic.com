@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -24,7 +25,7 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
-  secret: 'a_very_secret_key_that_should_be_in_env_vars',
+  secret: process.env.SESSION_SECRET || 'a_default_secret_key',
   resave: false,
   saveUninitialized: true,
 }));
@@ -50,9 +51,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 
 // Google Strategy
 passport.use(new GoogleStrategy({
-    // Replace these with your actual credentials from the Google Cloud Console
-    clientID: '737297307622-vi8817pmmk4q9kmq4i18ciutofiko218.apps.googleusercontent.com', 
-    clientSecret: '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',
+    clientID: process.env.GOOGLE_CLIENT_ID, 
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -68,9 +68,8 @@ passport.use(new GoogleStrategy({
 
 // Facebook Strategy
 passport.use(new FacebookStrategy({
-    // Replace these with your actual credentials from the Facebook for Developers portal
-    clientID: process.env.FACEBOOK_APP_ID || 'PASTE_YOUR_FACEBOOK_APP_ID_HERE', 
-    clientSecret: process.env.FACEBOOK_APP_SECRET || 'PASTE_YOUR_FACEBOOK_APP_SECRET_HERE',
+    clientID: process.env.FACEBOOK_APP_ID, 
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -85,9 +84,8 @@ passport.use(new FacebookStrategy({
 
 // GitHub Strategy
 passport.use(new GitHubStrategy({
-    // Replace these with your actual credentials from your GitHub Developer Settings
-    clientID: process.env.GITHUB_CLIENT_ID || 'PASTE_YOUR_GITHUB_CLIENT_ID_HERE', 
-    clientSecret: process.env.GITHUB_CLIENT_SECRET || 'PASTE_YOUR_GITHUB_CLIENT_SECRET_HERE',
+    clientID: process.env.GITHUB_CLIENT_ID, 
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -178,10 +176,6 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 
 
 // --- API Routes ---
-app.get('/', (req, res) => {
-  res.send('Backend server is running. Ready to serve API data.');
-});
-
 app.get('/api/artists', (req, res) => {
   res.json(artistsData);
 });
