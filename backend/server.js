@@ -19,7 +19,7 @@ const users = [];
 
 // --- Middleware Setup ---
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow frontend to access
+  origin: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/', // Allow frontend to access
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
