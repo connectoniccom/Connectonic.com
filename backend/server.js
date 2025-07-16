@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const port = 3000;
+const port = 3002;
 
 // --- In-memory user store (for demonstration purposes) ---
 const users = [];
@@ -65,7 +65,7 @@ passport.use(new GoogleStrategy({
   },
   (accessToken, refreshToken, profile, done) => {
     // Find or create user
-    let user = users.find(u => u.id === profile.id);
+    let user = users.find(u => u.id === profile.id && u.provider === 'google');
     if (!user) {
       user = { id: profile.id, displayName: profile.displayName, provider: 'google' };
       users.push(user);
@@ -81,7 +81,7 @@ passport.use(new FacebookStrategy({
     callbackURL: 'https://3000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    let user = users.find(u => u.id === profile.id);
+    let user = users.find(u => u.id === profile.id && u.provider === 'facebook');
     if (!user) {
       user = { id: profile.id, displayName: profile.displayName, provider: 'facebook' };
       users.push(user);
@@ -97,7 +97,7 @@ passport.use(new GitHubStrategy({
     callbackURL: 'https://3000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
-    let user = users.find(u => u.id === profile.id);
+    let user = users.find(u => u.id === profile.id && u.provider === 'github');
     if (!user) {
       user = { id: profile.id, displayName: profile.displayName, provider: 'github' };
       users.push(user);
