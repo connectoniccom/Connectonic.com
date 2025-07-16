@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './News.css';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev';
 
 function News() {
   const [newsData, setNewsData] = useState([]);

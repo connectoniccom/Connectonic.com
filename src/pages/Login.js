@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev';
 
 function Login() {
   const [email, setEmail] = useState('');

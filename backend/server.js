@@ -53,7 +53,7 @@ passport.use(new GoogleStrategy({
     // Replace these with your actual credentials from the Google Cloud Console
     clientID: process.env.GOOGLE_CLIENT_ID || 'PASTE_YOUR_GOOGLE_CLIENT_ID_HERE', 
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'PASTE_YOUR_GOOGLE_CLIENT_SECRET_HERE',
-    callbackURL: '/auth/google/callback'
+    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     // Find or create user
@@ -71,7 +71,7 @@ passport.use(new FacebookStrategy({
     // Replace these with your actual credentials from the Facebook for Developers portal
     clientID: process.env.FACEBOOK_APP_ID || 'PASTE_YOUR_FACEBOOK_APP_ID_HERE', 
     clientSecret: process.env.FACEBOOK_APP_SECRET || 'PASTE_YOUR_FACEBOOK_APP_SECRET_HERE',
-    callbackURL: '/auth/facebook/callback'
+    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     let user = users.find(u => u.id === profile.id);
@@ -88,7 +88,7 @@ passport.use(new GitHubStrategy({
     // Replace these with your actual credentials from your GitHub Developer Settings
     clientID: process.env.GITHUB_CLIENT_ID || 'PASTE_YOUR_GITHUB_CLIENT_ID_HERE', 
     clientSecret: process.env.GITHUB_CLIENT_SECRET || 'PASTE_YOUR_GITHUB_CLIENT_SECRET_HERE',
-    callbackURL: '/auth/github/callback'
+    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     let user = users.find(u => u.id === profile.id);
