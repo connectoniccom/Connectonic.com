@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 // --- In-memory user store (for demonstration purposes) ---
 const users = [];
@@ -61,7 +61,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
+    callbackURL: 'https://3000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     // Find or create user
@@ -78,7 +78,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
+    callbackURL: 'https://3000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/facebook/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     let user = users.find(u => u.id === profile.id);
@@ -94,7 +94,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
+    callbackURL: 'https://3000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
     let user = users.find(u => u.id === profile.id);
