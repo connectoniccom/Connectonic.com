@@ -18,7 +18,7 @@ const port = 3001;
 const users = [];
 
 // --- Middleware Setup ---
-const allowedOrigins = ['http://localhost:3000', 'https://connectoniccom.github.io'];
+const allowedOrigins = ['https://9000-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev', 'https://connectoniccom.github.io'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
