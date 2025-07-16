@@ -51,8 +51,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 // Google Strategy
 passport.use(new GoogleStrategy({
     // Replace these with your actual credentials from the Google Cloud Console
-    clientID: process.env.GOOGLE_CLIENT_ID || 'PASTE_YOUR_GOOGLE_CLIENT_ID_HERE', 
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'PASTE_YOUR_GOOGLE_CLIENT_SECRET_HERE',
+    clientID: '737297307622-vi8817pmmk4q9kmq4i18ciutofiko218.apps.googleusercontent.com', 
+    clientSecret: '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',
     callbackURL: 'https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
