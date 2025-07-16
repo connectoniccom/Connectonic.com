@@ -18,10 +18,8 @@ const port = 3001;
 const users = [];
 
 // --- Middleware Setup ---
-// Allow requests from any origin for development purposes.
-// For production, you would want to restrict this to your specific frontend URL.
 app.use(cors({
-  origin: true,
+  origin: true, // Allows all origins
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
