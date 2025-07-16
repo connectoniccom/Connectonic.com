@@ -50,8 +50,9 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 
 // Google Strategy
 passport.use(new GoogleStrategy({
-    clientID: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your credentials
-    clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
+    // Replace these with your actual credentials from the Google Cloud Console
+    clientID: process.env.GOOGLE_CLIENT_ID || 'PASTE_YOUR_GOOGLE_CLIENT_ID_HERE', 
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'PASTE_YOUR_GOOGLE_CLIENT_SECRET_HERE',
     callbackURL: '/auth/google/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -67,8 +68,9 @@ passport.use(new GoogleStrategy({
 
 // Facebook Strategy
 passport.use(new FacebookStrategy({
-    clientID: 'YOUR_FACEBOOK_APP_ID', // Replace with your credentials
-    clientSecret: 'YOUR_FACEBOOK_APP_SECRET',
+    // Replace these with your actual credentials from the Facebook for Developers portal
+    clientID: process.env.FACEBOOK_APP_ID || 'PASTE_YOUR_FACEBOOK_APP_ID_HERE', 
+    clientSecret: process.env.FACEBOOK_APP_SECRET || 'PASTE_YOUR_FACEBOOK_APP_SECRET_HERE',
     callbackURL: '/auth/facebook/callback'
   },
   (accessToken, refreshToken, profile, done) => {
@@ -83,8 +85,9 @@ passport.use(new FacebookStrategy({
 
 // GitHub Strategy
 passport.use(new GitHubStrategy({
-    clientID: 'YOUR_GITHUB_CLIENT_ID', // Replace with your credentials
-    clientSecret: 'YOUR_GITHUB_CLIENT_SECRET',
+    // Replace these with your actual credentials from your GitHub Developer Settings
+    clientID: process.env.GITHUB_CLIENT_ID || 'PASTE_YOUR_GITHUB_CLIENT_ID_HERE', 
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || 'PASTE_YOUR_GITHUB_CLIENT_SECRET_HERE',
     callbackURL: '/auth/github/callback'
   },
   (accessToken, refreshToken, profile, done) => {
