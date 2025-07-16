@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css'; // Reusing login styles
 
+const API_BASE_URL = 'http://localhost:3001';
+
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +18,7 @@ function Register() {
     }
     
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch(`${API_BASE_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
