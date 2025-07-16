@@ -18,10 +18,18 @@ const port = 3001;
 const users = [];
 
 // --- Middleware Setup ---
+const allowedOrigins = ['http://localhost:3000', 'https://connectoniccom.github.io'];
 app.use(cors({
-  origin: true, // Allows all origins
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
