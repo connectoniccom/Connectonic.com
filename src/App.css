@@ -70,7 +70,6 @@ img {
 @media (max-width: 768px) {
   #main-content {
     padding-top: 70px;
-    /* When sidebar is open, prevent content from being pushed out */
     width: 100% !important;
     margin-left: 0 !important;
   }
