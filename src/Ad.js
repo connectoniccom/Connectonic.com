@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 // IMPORTANT: Replace this with your own Google AdSense Publisher ID
-const PUBLISHER_ID = "ca-pub-0000000000000000";
+const PUBLISHER_ID = "ca-pub-2583060052563516";
 
 function Ad({ adSlot }) {
   useEffect(() => {
