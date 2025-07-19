@@ -68,6 +68,12 @@ img {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  #main-content {
+    padding-top: 70px;
+    /* When sidebar is open, prevent content from being pushed out */
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
   .content-section {
     padding: 20px;
   }
@@ -80,12 +86,13 @@ img {
   .content-section p, .content-section li {
     font-size: 1rem;
   }
-  #main-content {
-    padding-top: 70px;
-  }
 }
 
 @media (max-width: 480px) {
+  #main-content {
+    padding: 10px;
+    padding-top: 60px;
+  }
   .content-section h1 {
     font-size: 1.8rem;
   }
@@ -94,9 +101,5 @@ img {
   }
   .content-section p, .content-section li {
     font-size: 0.9rem;
-  }
-  #main-content {
-    padding: 10px;
-    padding-top: 60px;
   }
 }
