@@ -8,8 +8,9 @@
   --primary-accent: #66fcf1;
 }
 
-html {
+html, body {
   scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 body {
