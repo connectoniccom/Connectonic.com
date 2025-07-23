@@ -1,22 +1,30 @@
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+'use client';
+
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push('/dashboard');
+      } else {
+        router.push('/landing');
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [router]);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-primary mb-4">Welcome to Connectonic</h1>
-        <p className="text-xl text-muted-foreground mb-8">Your amazing app description goes here.</p>
-        <div className="space-x-4">
-          <Button asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/signup">Sign Up</Link>
-          </Button>
-        </div>
-      </div>
+    <div className="flex items-center justify-center min-h-screen">
+      <p>Loading...</p>
     </div>
   );
 }

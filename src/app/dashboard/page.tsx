@@ -26,10 +26,10 @@ export default function Dashboard() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        setLoading(false);
       } else {
         router.push('/login');
       }
+      setLoading(false);
     });
     return () => unsubscribe();
   }, [router]);
@@ -54,7 +54,7 @@ export default function Dashboard() {
   const handleSignOut = async () => {
     try {
       await auth.signOut();
-      router.push('/');
+      router.push('/landing');
     } catch (error) {
       console.error('Error signing out: ', error);
     }
@@ -70,7 +70,7 @@ export default function Dashboard() {
         createdAt: serverTimestamp(),
       });
       setNote('');
-    } catch (error) {
+    } catch (error)_ {
       console.error("Error adding document: ", error);
     }
   };
