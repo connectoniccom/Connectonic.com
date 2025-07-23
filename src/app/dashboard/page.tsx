@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { collection, addDoc, query, where, onSnapshot, serverTimestamp, DocumentData } from 'firebase/firestore';
+import { collection, addDoc, query, where, onSnapshot, serverTimestamp, DocumentData, orderBy } from 'firebase/firestore';
 
 interface Note {
   id: string;
@@ -27,14 +27,16 @@ export default function Dashboard() {
       if (user) {
         setUser(user);
         
-        // Subscribe to user's notes
-        const q = query(collection(db, "notes"), where("userId", "==", user.uid));
+        const q = query(collection(db, "notes"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
         const unsubscribeSnapshot = onSnapshot(q, (querySnapshot) => {
           const userNotes: Note[] = [];
           querySnapshot.forEach((doc: DocumentData) => {
             userNotes.push({ id: doc.id, ...doc.data() } as Note);
           });
           setNotes(userNotes);
+          setLoading(false);
+        }, (error) => {
+          console.error("Error fetching notes: ", error);
           setLoading(false);
         });
 
@@ -76,7 +78,7 @@ export default function Dashboard() {
   }
 
   if (!user) {
-    return null; // or a redirect component
+    return null; // Should be redirected, but as a fallback
   }
 
   return (
