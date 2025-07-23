@@ -3,13 +3,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { Chrome, Github, Facebook } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -22,6 +23,16 @@ export default function Login() {
     setError(null);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleSocialLogin = async (provider: GoogleAuthProvider | GithubAuthProvider | FacebookAuthProvider) => {
+    setError(null);
+    try {
+      await signInWithPopup(auth, provider);
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
@@ -65,6 +76,30 @@ export default function Login() {
               </Button>
             </div>
           </form>
+
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <Button variant="outline" onClick={() => handleSocialLogin(new GoogleAuthProvider())}>
+              <Chrome className="mr-2 h-4 w-4" /> Google
+            </Button>
+            <Button variant="outline" onClick={() => handleSocialLogin(new GithubAuthProvider())}>
+              <Github className="mr-2 h-4 w-4" /> GitHub
+            </Button>
+            <Button variant="outline" onClick={() => handleSocialLogin(new FacebookAuthProvider())}>
+               <Facebook className="mr-2 h-4 w-4" /> Facebook
+            </Button>
+          </div>
+
           <div className="mt-4 text-center text-sm">
             Don't have an account?{' '}
             <Link href="/signup" className="underline">
