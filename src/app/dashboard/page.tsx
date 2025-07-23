@@ -53,7 +53,7 @@ export default function Dashboard() {
     try {
       await auth.signOut();
       router.push('/');
-    } catch (error) from {
+    } catch (error) {
       console.error('Error signing out: ', error);
     }
   };
