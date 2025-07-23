@@ -70,7 +70,7 @@ export default function Dashboard() {
         createdAt: serverTimestamp(),
       });
       setNote('');
-    } catch (error)_ {
+    } catch (error) {
       console.error("Error adding document: ", error);
     }
   };
