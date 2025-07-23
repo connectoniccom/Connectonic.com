@@ -7,12 +7,14 @@ import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { collection, addDoc, query, where, onSnapshot, serverTimestamp, DocumentData, orderBy } from 'firebase/firestore';
+import { LogOut, PlusCircle } from 'lucide-react';
 
 interface Note {
   id: string;
   text: string;
+  createdAt: any;
 }
 
 export default function Dashboard() {
@@ -84,44 +86,62 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-background p-4">
-        <div className="w-full max-w-4xl">
-            <header className="flex justify-between items-center py-4">
-                <h1 className="text-2xl font-bold text-primary">Dashboard</h1>
-                <Button onClick={handleSignOut} variant="outline">Sign Out</Button>
-            </header>
-            <main className="grid gap-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Welcome back!</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>You are logged in as {user.email}.</p>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle>My Notes</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <form onSubmit={handleAddNote} className="flex gap-2 mb-4">
-                        <Input 
-                          value={note}
-                          onChange={(e) => setNote(e.target.value)}
-                          placeholder="Add a new note..."
-                        />
-                        <Button type="submit">Add Note</Button>
-                      </form>
-                      <ul className="space-y-2">
-                        {notes.map((n) => (
-                          <li key={n.id} className="p-2 bg-secondary rounded-md">{n.text}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                </Card>
-            </main>
+    <div className="min-h-screen bg-secondary/40">
+      <header className="bg-background border-b border-border sticky top-0 z-10">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center py-4">
+            <h1 className="text-2xl font-bold text-primary">Dashboard</h1>
+            <Button onClick={handleSignOut} variant="outline" size="sm">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+          </div>
         </div>
+      </header>
+
+      <main className="container mx-auto p-4 md:p-8 grid gap-8">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle>Welcome back, {user.displayName || user.email}!</CardTitle>
+            <CardDescription>Here are your latest notes. You can add more below.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleAddNote} className="flex gap-2 mb-6">
+              <Input
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="What's on your mind?"
+                className="bg-background"
+              />
+              <Button type="submit">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add Note
+              </Button>
+            </form>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {notes.map((n) => (
+                <Card key={n.id} className="bg-secondary">
+                  <CardContent className="p-4">
+                    <p className="text-foreground">{n.text}</p>
+                  </CardContent>
+                  <CardFooter className="p-2 pt-0 text-xs text-muted-foreground">
+                    <p>
+                      {n.createdAt?.toDate().toLocaleDateString()}
+                    </p>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+            {notes.length === 0 && (
+                <div className="text-center py-12 text-muted-foreground">
+                    <p>You haven't added any notes yet.</p>
+                    <p>Use the form above to get started.</p>
+                </div>
+            )}
+          </CardContent>
+        </Card>
+      </main>
     </div>
   );
 }
