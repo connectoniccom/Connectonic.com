@@ -23,31 +23,33 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        
-        const q = query(collection(db, "notes"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
-        const unsubscribeSnapshot = onSnapshot(q, (querySnapshot) => {
-          const userNotes: Note[] = [];
-          querySnapshot.forEach((doc: DocumentData) => {
-            userNotes.push({ id: doc.id, ...doc.data() } as Note);
-          });
-          setNotes(userNotes);
-          setLoading(false);
-        }, (error) => {
-          console.error("Error fetching notes: ", error);
-          setLoading(false);
-        });
-
-        return () => unsubscribeSnapshot();
+        setLoading(false);
       } else {
         router.push('/login');
       }
     });
-
-    return () => unsubscribeAuth();
+    return () => unsubscribe();
   }, [router]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(collection(db, 'notes'), where('userId', '==', user.uid), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const userNotes: Note[] = [];
+      querySnapshot.forEach((doc: DocumentData) => {
+        userNotes.push({ id: doc.id, ...doc.data() } as Note);
+      });
+      setNotes(userNotes);
+    }, (error) => {
+      console.error("Error fetching notes: ", error);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   const handleSignOut = async () => {
     try {
