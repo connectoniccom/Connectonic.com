@@ -10,7 +10,7 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   "projectId": "connectoniccom-k2gsh",
   "appId": "1:370207863142:web:8dec55f0969798e9f098a7",
-  "storageBucket": "connectoniccom-k2gsh.appspot.com",
+  "storageBucket": "connectoniccom-k2gsh.firebasestorage.app",
   "apiKey": "AIzaSyA6kP59kWoPLKedD9C2XIcvPHUdJQv4oE0",
   "authDomain": "connectoniccom-k2gsh.firebaseapp.com",
   "measurementId": "",
