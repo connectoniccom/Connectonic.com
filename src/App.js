@@ -13,8 +13,15 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState(null);
   const [showInstallNotification, setShowInstallNotification] = useState(false);
+  const [backendMessage, setBackendMessage] = useState('');
 
   useEffect(() => {
+    // Fetch message from backend
+    fetch('/api/message')
+      .then(response => response.json())
+      .then(data => setBackendMessage(data.message))
+      .catch(error => console.error('Error fetching backend message:', error));
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setInstallPrompt(e);
@@ -90,6 +97,7 @@ function App() {
           <InstallNotification onInstall={handleInstallClick} />
         )}
         <div id="main-content">
+          <p>Backend Message: {backendMessage}</p>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/artists" element={<Artists />} />
