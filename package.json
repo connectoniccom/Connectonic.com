@@ -14,7 +14,7 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://connectoniccom.github.io/Connect.world/",
+  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -24,7 +24,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "deploy-gh-pages": "gh-pages -d build"
   },
-  "proxy": "https://3001-firebase-studio-1750940658370.cluster-ombtxv25tbd6yrjpp3lukp6zhc.cloudworkstations.dev/",
+
   "eslintConfig": {
     "extends": [
       "react-app",
