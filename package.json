@@ -12,11 +12,11 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
+    "vercel": "^44.6.3",
     "web-vitals": "^2.1.4"
   },
   "homepage": " https://connectoniccom.github.io/Connectonic.com/",
   "proxy": "",
-  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -26,7 +26,6 @@
     "deploy": "npm run build && main -d build",
     "deploy-main": "main -d build"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",
