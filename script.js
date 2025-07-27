@@ -124,6 +124,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 8. Initialize first nav link as active
     document.querySelector('nav a').classList.add('active');
+
+    // Fetch data from the Vercel serverless function
+    fetch('/api/hello')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+
 });
 
  document.addEventListener('DOMContentLoaded', function() {
