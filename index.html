@@ -185,6 +185,20 @@
     </footer>
     
     <button class="dark-mode-toggle" aria-label="Toggle dark mode"><img src="Images/B4.jpg" width="30" height="30"></button>
+    <script>
+  fetch('/api/hello')
+    .then(response => response.json())
+    .then(data => {
+      // Assuming your API returns a JSON object with a 'message' property
+      document.getElementById('api-message').innerText = data.message;
+    })
+    .catch(error => {
+      console.error('Error fetching API message:', error);
+      document.getElementById('api-message').innerText = 'Failed to load message.';
+    });
+</script>
+
+<div id="api-message">Loading API message...</div>
     
     <script src="Lock.js"></script>
     <script src="script.js"></script>
