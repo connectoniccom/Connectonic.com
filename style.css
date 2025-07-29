@@ -2,6 +2,25 @@ html {
   touch-action: pan-y; /* Disables pinch-zoom but allows vertical scrolling */
 }
 
+.embed-code-textarea {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #2b2b2b;
+    color: #f8f8f2;
+    white-space: pre;
+    overflow: auto;
+}
+
+
 .loader {
     position: fixed;
     top: 0;
