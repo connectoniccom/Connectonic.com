@@ -34,8 +34,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     }
 
-    // Pipe the audio stream to the response
-    audioResponse.body.pipe(res);
+    if (audioResponse.body) {
+      audioResponse.body.pipe(res);
+    } else {
+      throw new Error('Audio response body is null');
+    }
 
   } catch (error) {
     console.error('Error downloading audio:', error);

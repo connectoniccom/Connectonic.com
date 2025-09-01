@@ -33,8 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     }
     
-    // Pipe the video stream to the response
-    videoResponse.body.pipe(res);
+    if (videoResponse.body) {
+      videoResponse.body.pipe(res);
+    } else {
+      throw new Error('Video response body is null');
+    }
 
   } catch (error) {
     console.error('Error downloading video:', error);

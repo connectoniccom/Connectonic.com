@@ -1,5 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js"
-}
+{"/_app":"pages/_app.js","/_error":"pages/_error.js","/api/download-audio":"pages/api/download-audio.js","/api/download-video":"pages/api/download-video.js","/api/mobile-money/initiate":"pages/api/mobile-money/initiate.js","/_document":"pages/_document.js","/404":"pages/404.html"}

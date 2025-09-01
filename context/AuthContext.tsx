@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     try {
       await signInWithPopup(auth, provider);
-      router._push_('/');
+      router.push('/');
     } catch (err: any) {
       setError(err.message);
       console.error(err);
