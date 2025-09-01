@@ -3,8 +3,7 @@
   "description": "Connectonic Music App",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "npm run dev"
+    "build": "next build"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
