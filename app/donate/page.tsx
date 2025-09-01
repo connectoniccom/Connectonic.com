@@ -2,9 +2,13 @@
 'use client';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Heart, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 const DonatePage = () => {
+    const paymentUrl = "https://flutterwave.com/pay/ugxeversend?email=matovuasuman481@gmail.com&firstname=Matovu&lastname=Asuman";
+
     return (
         <div className="flex justify-center items-center h-full p-4">
             <Card className="w-full max-w-lg text-center shadow-lg">
@@ -17,10 +21,16 @@ const DonatePage = () => {
                         Your contribution helps us keep the music playing and support artists everywhere.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col items-center space-y-4">
                    <p className="text-muted-foreground">
-                    Thank you for considering a donation. We are currently not accepting payments but appreciate your support!
+                    Click the button below to make a secure donation. We appreciate your support!
                    </p>
+                   <Button asChild size="lg">
+                        <Link href={paymentUrl} target="_blank" rel="noopener noreferrer">
+                            Donate Now
+                            <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                   </Button>
                 </CardContent>
             </Card>
         </div>
