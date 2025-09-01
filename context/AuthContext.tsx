@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -105,7 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     try {
       await signInWithPopup(auth, provider);
-      router.push('/');
+      router._push_('/');
     } catch (err: any) {
       setError(err.message);
       console.error(err);
