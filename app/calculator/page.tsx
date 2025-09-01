@@ -266,12 +266,28 @@ const conversionFactors: Record<string, Record<string, number>> = {
     Fahrenheit: 1, // Special handling
     Kelvin: 1,     // Special handling
   },
+  Currency: { // Note: These are mock rates relative to USD. For real apps, use an API.
+    'USD (United States Dollar)': 1,
+    'EUR (Euro)': 0.92,
+    'JPY (Japanese Yen)': 157.34,
+    'GBP (British Pound)': 0.78,
+    'AUD (Australian Dollar)': 1.50,
+    'CAD (Canadian Dollar)': 1.37,
+    'CHF (Swiss Franc)': 0.90,
+    'CNY (Chinese Yuan)': 7.25,
+    'INR (Indian Rupee)': 83.54,
+    'BRL (Brazilian Real)': 5.25,
+    'RUB (Russian Ruble)': 90.33,
+    'ZAR (South African Rand)': 18.75,
+    'UGX (Ugandan Shilling)': 3740.00,
+  }
 };
 
 const conversionOptions: Record<string, string[]> = {
   Length: Object.keys(conversionFactors.Length),
   Weight: Object.keys(conversionFactors.Weight),
   Temperature: Object.keys(conversionFactors.Temperature),
+  Currency: Object.keys(conversionFactors.Currency),
 };
 
 const convertValue = (
@@ -291,10 +307,11 @@ const convertValue = (
     if (fromUnit === 'Kelvin' && toUnit === 'Fahrenheit') return ((value - 273.15) * 9/5) + 32;
     return value; // Should not happen with same from/to unit check
   } else {
+    // This logic now works for Length, Weight, and Currency
     const fromFactor = conversionFactors[category][fromUnit];
     const toFactor = conversionFactors[category][toUnit];
-    const valueInBase = value / fromFactor;
-    return valueInBase * toFactor;
+    const valueInBase = value / fromFactor; // Convert 'from' amount to base unit (USD for currency)
+    return valueInBase * toFactor; // Convert from base unit to 'to' unit
   }
 };
 
@@ -375,6 +392,11 @@ const UnitConverter = () => {
                     <Input id="to-value" value={toValue} readOnly className="font-semibold bg-muted" />
                 </div>
             </div>
+             {category === 'Currency' && (
+                <p className="text-xs text-center text-muted-foreground pt-2">
+                    Currency rates are for demonstration purposes and may not be up-to-date.
+                </p>
+            )}
         </div>
     );
 };
