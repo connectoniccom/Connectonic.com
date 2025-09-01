@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,35 @@ const CalculatorPage = () => {
   const [firstOperand, setFirstOperand] = useState<number | null>(null);
   const [operator, setOperator] = useState<string | null>(null);
   const [waitingForSecondOperand, setWaitingForSecondOperand] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const { key } = event;
+
+      if (key >= '0' && key <= '9') {
+        handleDigitClick(key);
+      } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        handleOperatorClick(key);
+      } else if (key === '.' ) {
+        handleDecimalClick();
+      } else if (key === 'Enter' || key === '=') {
+        event.preventDefault(); // Prevent form submission if any
+        handleEqualsClick();
+      } else if (key === 'Backspace') {
+        handleBackspace();
+      } else if (key === 'Escape') {
+        handleClearClick();
+      } else if (key === '%') {
+        handleUnaryOperatorClick('%');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [display, firstOperand, operator, waitingForSecondOperand]);
+
 
   const handleDigitClick = (digit: string) => {
     if (waitingForSecondOperand) {
