@@ -1,11 +1,11 @@
-
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Home, Music, Users, Settings, X, Tv, Waypoints } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Home, User, X, Calculator, Heart, LogIn, Smile, Shield, Code, Network } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,60 +13,78 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
-  const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const navItems = [
     { href: '/', icon: Home, label: 'Home' },
-    { href: '/artists', icon: Music, label: 'Artists' },
-    { href: '/users', icon: Users, label: 'Users' },
-    { href: '/videos', icon: Tv, label: 'Videos' },
-    { href: '/tunnel', icon: Waypoints, label: 'Tunnels' },
-    { href: '/settings', icon: Settings, label: 'Settings' },
+    { href: '/artists', icon: User, label: 'Artists' },
+    { href: '/animations', icon: Smile, label: 'Animations' },
+    { href: '/calculator', icon: Calculator, label: 'Calculator' },
+    { href: '/tunnel', icon: Network, label: 'Public Tunnel' },
+    { href: '/vpn', icon: Shield, label: 'VPN' },
+    { href: '/donate', icon: Heart, label: 'Donate' },
+    { href: '/coding-tool', icon: Code, label: 'Code Playground' },
   ];
 
   return (
     <>
-      {/* Overlay for mobile */}
-      <div
-        className={cn(
-          'fixed inset-0 z-40 bg-black/50 transition-opacity md:hidden',
-          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        )}
-        onClick={onClose}
-      />
+      {isMounted && (
+        <>
+          {/* Overlay */}
+          <div
+            className={cn(
+              'fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 md:hidden',
+              isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            )}
+            onClick={onClose}
+          />
 
-      <aside
-        className={cn(
-          'fixed top-0 left-0 z-50 h-full w-64 bg-secondary text-secondary-foreground transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        )}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-xl font-bold">Connectonic</h2>
-          <button onClick={onClose} className="md:hidden">
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-        <nav className="p-4">
-          <ul>
-            {navItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    'flex items-center p-3 rounded-lg transition-colors hover:bg-primary/20',
-                    pathname === item.href ? 'bg-primary/10 text-primary font-semibold' : ''
-                  )}
-                  onClick={onClose}
-                >
-                  <item.icon className="mr-3 h-5 w-5" />
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+          {/* Sidebar */}
+          <aside
+            className={cn(
+              'fixed top-0 left-0 h-full w-64 bg-card border-r p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out z-50 md:relative md:translate-x-0',
+              isOpen ? 'translate-x-0' : '-translate-x-full'
+            )}
+          >
+            <div>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold">Connectonic</h2>
+                <button onClick={onClose} className="md:hidden p-2">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              <nav className="flex flex-col space-y-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center p-3 text-base font-medium rounded-lg hover:bg-accent"
+                    onClick={onClose}
+                  >
+                    <item.icon className="mr-3 h-5 w-5" />
+                    {item.label}
+                  </Link>
+                ))}
+                {!user && (
+                  <Link
+                    href="/auth"
+                    className="flex items-center p-3 text-base font-medium rounded-lg hover:bg-accent"
+                    onClick={onClose}
+                  >
+                    <LogIn className="mr-3 h-5 w-5" />
+                    Login
+                  </Link>
+                )}
+              </nav>
+            </div>
+          </aside>
+        </>
+      )}
     </>
   );
 };
