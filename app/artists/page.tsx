@@ -15,12 +15,17 @@ const ArtistsPage = () => {
 
   const [currentVideo, setCurrentVideo] = useState<{ src: string; title: string } | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (selectedArtist) {
       setCurrentVideo({ src: selectedArtist.videoSrc, title: 'Main Video' });
+      if(currentAudio) {
+        currentAudio.pause();
+        setCurrentAudio(null);
+      }
     }
-  }, [selectedArtist]);
+  }, [selectedArtist, currentAudio]);
 
   const filteredArtists = useMemo(() => {
     if (!searchTerm) return artists;
@@ -33,11 +38,24 @@ const ArtistsPage = () => {
 
   const handleMediaSelect = (media: { title: string; type: 'Audio' | 'Video'; src: string }) => {
     if (media.type === 'Video') {
+       if(currentAudio) {
+        currentAudio.pause();
+        setCurrentAudio(null);
+      }
       setCurrentVideo({ src: media.src, title: media.title });
     } else {
-      console.log("Audio selected:", media.src);
-      const audio = new Audio(media.src);
-      audio.play();
+      if(currentAudio?.src === media.src) {
+        if(currentAudio.paused) {
+          currentAudio.play();
+        } else {
+          currentAudio.pause();
+        }
+      } else {
+        currentAudio?.pause();
+        const audio = new Audio(media.src);
+        setCurrentAudio(audio);
+        audio.play();
+      }
     }
   };
 
@@ -115,6 +133,18 @@ const ArtistsPage = () => {
                     </div>
                 </div>
             )}
+             <div className="space-y-4">
+                <h3 className="text-2xl font-semibold flex items-center"><Music className="mr-2" /> Main Track</h3>
+                <audio controls className="w-full" src={selectedArtist.audioSrc}>
+                    Your browser does not support the audio element.
+                </audio>
+                 <div className="flex gap-2 pt-2">
+                    <Button onClick={() => handleDownload(selectedArtist.audioSrc, 'audio')} disabled={isDownloading}>
+                        {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                        Download Audio
+                    </Button>
+                </div>
+            </div>
           </CardContent>
         </Card>
         {/* Other Media */}
