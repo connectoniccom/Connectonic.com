@@ -34,8 +34,6 @@ const ArtistsPage = () => {
     );
   }, [searchTerm]);
 
-  const otherArtists = artists.filter(artist => artist.id !== selectedArtist?.id);
-
   const handleMediaSelect = (media: { title: string; type: 'Audio' | 'Video'; src: string }) => {
     if (media.type === 'Video') {
        if(currentAudio) {
@@ -99,8 +97,8 @@ const ArtistsPage = () => {
     }
   };
 
-
   if (selectedArtist) {
+    const otherArtists = artists.filter(artist => artist.id !== selectedArtist?.id);
     return (
       <div className="w-full p-4 animate-fade-in">
         <Button variant="outline" onClick={() => setSelectedArtist(null)} className="mb-8">
@@ -114,10 +112,10 @@ const ArtistsPage = () => {
           <CardHeader>
             <CardTitle>Featured Media</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-8">
+          <CardContent className="flex flex-col items-center gap-8">
             {/* Video Container */}
             {currentVideo && (
-                 <div className="space-y-4">
+                 <div className="w-full max-w-md space-y-4">
                     <h3 className="text-2xl font-semibold flex items-center"><Video className="mr-2" /> {currentVideo.title}</h3>
                     <div className="aspect-video bg-black rounded-lg overflow-hidden">
                         <video key={currentVideo.src} controls className="w-full h-full" preload="metadata">
@@ -130,21 +128,13 @@ const ArtistsPage = () => {
                             {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
                             Download Video
                         </Button>
+                        <Button onClick={() => handleDownload(currentVideo.src, 'audio')} disabled={isDownloading} variant="secondary">
+                            {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                            Download Audio
+                        </Button>
                     </div>
                 </div>
             )}
-             <div className="space-y-4">
-                <h3 className="text-2xl font-semibold flex items-center"><Music className="mr-2" /> Main Track</h3>
-                <audio controls className="w-full" src={selectedArtist.audioSrc}>
-                    Your browser does not support the audio element.
-                </audio>
-                 <div className="flex gap-2 pt-2">
-                    <Button onClick={() => handleDownload(selectedArtist.audioSrc, 'audio')} disabled={isDownloading}>
-                        {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                        Download Audio
-                    </Button>
-                </div>
-            </div>
           </CardContent>
         </Card>
         {/* Other Media */}
