@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Music, Video, User, PlayCircle, Download, Loader2 } from 'lucide-react';
@@ -12,9 +12,10 @@ import { artists, Artist } from './data';
 const ArtistsPage = () => {
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
 
   const [currentVideo, setCurrentVideo] = useState<{ src: string; title: string } | null>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadingType, setDownloadingType] = useState<string | null>(null);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -33,6 +34,8 @@ const ArtistsPage = () => {
       artist.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
+
+  const otherArtists = artists.filter(artist => artist.id !== selectedArtist?.id);
 
   const handleMediaSelect = (media: { title: string; type: 'Audio' | 'Video'; src: string }) => {
     if (media.type === 'Video') {
@@ -58,7 +61,7 @@ const ArtistsPage = () => {
   };
 
   const handleDownload = async (url: string, type: 'video' | 'audio') => {
-    setIsDownloading(true);
+    setDownloadingType(type);
     try {
       const response = await fetch(`/api/download-${type}`, {
         method: 'POST',
@@ -67,12 +70,23 @@ const ArtistsPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Download failed with status: ${response.status}`);
+        let errorMessage = `Download failed with status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (e) {
+          try {
+            const errorText = await response.text();
+            if (errorText) errorMessage = errorText;
+          } catch (e2) {
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const blob = await response.blob();
       const contentDisposition = response.headers.get('content-disposition');
-      let filename = `${selectedArtist?.name}_${type}.${type === 'video' ? 'mp4' : 'mp3'}`;
+      let filename = `download.${type === 'video' ? 'mp4' : 'mp3'}`;
 
       if (contentDisposition) {
         const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
@@ -89,18 +103,18 @@ const ArtistsPage = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(link.href);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error downloading ${type}:`, error);
-      // You could show a toast notification here to inform the user
+      alert(`Error downloading ${type}: ${error.message}`);
     } finally {
-      setIsDownloading(false);
+      setDownloadingType(null);
     }
   };
 
+
   if (selectedArtist) {
-    const otherArtists = artists.filter(artist => artist.id !== selectedArtist?.id);
     return (
-      <div className="w-full p-4 animate-fade-in">
+      <div className="container mx-auto p-4 animate-fade-in">
         <Button variant="outline" onClick={() => setSelectedArtist(null)} className="mb-8">
           &larr; Back to All Artists
         </Button>
@@ -123,20 +137,11 @@ const ArtistsPage = () => {
                           Your browser does not support the video tag.
                         </video>
                     </div>
-                     <div className="flex gap-2 pt-2">
-                        <Button onClick={() => handleDownload(currentVideo.src, 'video')} disabled={isDownloading}>
-                            {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                            Download Video
-                        </Button>
-                        <Button onClick={() => handleDownload(currentVideo.src, 'audio')} disabled={isDownloading} variant="secondary">
-                            {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                            Download Audio
-                        </Button>
-                    </div>
                 </div>
             )}
           </CardContent>
         </Card>
+
         {/* Other Media */}
          {selectedArtist.otherMedia && selectedArtist.otherMedia.length > 0 && (
           <Card className="mb-8">

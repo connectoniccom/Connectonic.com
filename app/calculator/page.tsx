@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ChevronLeft } from 'lucide-react';
 
 const CalculatorPage = () => {
   const [display, setDisplay] = useState('0');
@@ -45,6 +46,7 @@ const CalculatorPage = () => {
       case '*':
         return first * second;
       case '/':
+        if (second === 0) return NaN; // Handle division by zero
         return first / second;
       case '^':
         return Math.pow(first, second);
@@ -78,18 +80,27 @@ const CalculatorPage = () => {
         case 'sqr':
             result = Math.pow(inputValue, 2);
             break;
+        case '%':
+            result = inputValue / 100;
+            break;
+        case '1/x':
+            result = 1 / inputValue;
+            break;
+        case '+/-':
+            result = inputValue * -1;
+            break;
     }
     setDisplay(String(result));
-    setWaitingForSecondOperand(true);
+    setWaitingForSecondOperand(true); // Prepares for a new number or operation
   };
 
 
   const handleEqualsClick = () => {
     const inputValue = parseFloat(display);
-    if (operator && firstOperand !== null) {
+    if (operator && firstOperand !== null && !waitingForSecondOperand) {
       const result = calculate(firstOperand, inputValue, operator);
       setDisplay(String(result));
-      setFirstOperand(null);
+      setFirstOperand(null); // Reset for next calculation
       setOperator(null);
       setWaitingForSecondOperand(false);
     }
@@ -103,10 +114,20 @@ const CalculatorPage = () => {
   };
 
   const handleDecimalClick = () => {
+     if (waitingForSecondOperand) {
+      setDisplay('0.');
+      setWaitingForSecondOperand(false);
+      return;
+    }
     if (!display.includes('.')) {
       setDisplay(display + '.');
     }
   };
+  
+  const handleBackspace = () => {
+    if (waitingForSecondOperand) return;
+    setDisplay(display.length > 1 ? display.slice(0, -1) : '0');
+  }
 
   return (
     <div className="flex justify-center items-center h-full p-4">
@@ -131,27 +152,32 @@ const CalculatorPage = () => {
             <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqrt')}>√</Button>
             <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqr')}>x²</Button>
             <Button variant="outline" onClick={() => handleOperatorClick('^')}>xʸ</Button>
-            <Button variant="secondary" className="col-span-2" onClick={handleClearClick}>C</Button>
+            <Button variant="outline" onClick={() => handleUnaryOperatorClick('1/x')}>1/x</Button>
+            <Button variant="secondary" onClick={handleClearClick}>C</Button>
 
             <Button onClick={() => handleDigitClick('7')}>7</Button>
             <Button onClick={() => handleDigitClick('8')}>8</Button>
             <Button onClick={() => handleDigitClick('9')}>9</Button>
             <Button variant="secondary" onClick={() => handleOperatorClick('/')}>÷</Button>
-            <Button variant="secondary" onClick={() => handleOperatorClick('*')}>×</Button>
+            <Button variant="secondary" size="icon" onClick={handleBackspace}><ChevronLeft /></Button>
 
             <Button onClick={() => handleDigitClick('4')}>4</Button>
             <Button onClick={() => handleDigitClick('5')}>5</Button>
             <Button onClick={() => handleDigitClick('6')}>6</Button>
+            <Button variant="secondary" onClick={() => handleOperatorClick('*')}>×</Button>
             <Button variant="secondary" onClick={() => handleOperatorClick('-')}>-</Button>
-            <Button variant="secondary" onClick={() => handleOperatorClick('+')}>+</Button>
 
             <Button onClick={() => handleDigitClick('1')}>1</Button>
             <Button onClick={() => handleDigitClick('2')}>2</Button>
             <Button onClick={() => handleDigitClick('3')}>3</Button>
-            <Button className="row-span-2 col-start-5" onClick={handleEqualsClick}>=</Button>
-
-            <Button className="col-span-2" onClick={() => handleDigitClick('0')}>0</Button>
+            <Button variant="secondary" className="row-span-2" onClick={() => handleOperatorClick('+')}>+</Button>
+            <Button className="row-span-2" onClick={handleEqualsClick}>=</Button>
+            
+            <Button onClick={() => handleUnaryOperatorClick('%')}>%</Button>
+            <Button onClick={() => handleDigitClick('0')}>0</Button>
             <Button onClick={handleDecimalClick}>.</Button>
+            <Button onClick={() => handleUnaryOperatorClick('+/-')}>+/-</Button>
+
           </div>
         </CardContent>
       </Card>

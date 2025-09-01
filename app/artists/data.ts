@@ -87,4 +87,14 @@ export const artists: Artist[] = [
         { title: 'Boom Party', type: 'Audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3' },
     ],
   },
+  {
+    id: 7,
+    name: 'Fik Fameica',
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Fik%20Fameica/Fik%20Fameica.jpg',
+    dataAiHint: 'ugandan musician',
+    bio: 'Walukagga Shafik, known as Fik Fameica, is a Ugandan rapper. He is one of the fastest-growing artists in Uganda, and his music is a blend of dancehall and Afro-pop.',
+    audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+    videoSrc: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Fik%20Fameica/Wanula%20Temperature%20Touch%20Ava%20Peace.mp4',
+    otherMedia: [],
+  },
 ];

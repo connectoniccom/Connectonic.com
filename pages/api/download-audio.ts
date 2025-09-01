@@ -1,61 +1,48 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import ytdl from 'ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
-import fetch from 'node-fetch';
-import { Writable } from 'stream';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  if (req.method === 'POST') {
+    const { videoUrl } = req.body;
 
-  const { videoUrl } = req.body;
-
-  if (!videoUrl || typeof videoUrl !== 'string') {
-    return res.status(400).json({ error: 'Video URL is required.' });
-  }
-
-  try {
-    const videoResponse = await fetch(videoUrl);
-    if (!videoResponse.ok) {
-      throw new Error(`Failed to fetch video: ${videoResponse.statusText}`);
+    if (!videoUrl || !ytdl.validateURL(videoUrl)) {
+      return res.status(400).json({ error: 'Invalid or missing YouTube URL' });
     }
 
-    if (!videoResponse.body) {
-      throw new Error('Video response body is null');
-    }
+    try {
+      const info = await ytdl.getInfo(videoUrl);
+      const title = info.videoDetails.title.replace(/[^\w\s]/gi, '_'); // Sanitize title
 
-    const videoStream = videoResponse.body;
+      res.setHeader('Content-Disposition', `attachment; filename="${title}.mp3"`);
+      res.setHeader('Content-Type', 'audio/mpeg');
 
-    res.setHeader('Content-Type', 'audio/mpeg');
-    res.setHeader('Content-Disposition', 'attachment; filename="audio.mp3"');
+      const stream = ytdl(videoUrl, { filter: 'audioonly', quality: 'highestaudio' });
 
-    const outputStream = new Writable({
-      write(chunk, encoding, callback) {
-        res.write(chunk, encoding);
-        callback();
-      },
-      final(callback) {
-        res.end();
-        callback();
+      ffmpeg(stream)
+        .audioBitrate(128)
+        .format('mp3')
+        .on('error', (err) => {
+          console.error('FFmpeg error:', err);
+          // Don't send a response here if one has already been sent.
+          if (!res.headersSent) {
+            res.status(500).json({ error: 'Error converting to MP3' });
+          }
+        })
+        .pipe(res, { end: true });
+
+    } catch (error) {
+      console.error('ytdl error:', error);
+       if (!res.headersSent) {
+        res.status(500).json({ error: 'Error fetching video information' });
       }
-    });
-
-    ffmpeg(videoStream as any)
-      .toFormat('mp3')
-      .on('error', (err) => {
-        console.error('Error during ffmpeg processing:', err);
-        if (!res.headersSent) {
-          res.status(500).json({ error: 'Failed to process video.' });
-        }
-      })
-      .pipe(outputStream, { end: true });
-
-  } catch (error) {
-    console.error('Error downloading or processing video:', error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: 'Failed to download or process video.' });
     }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
