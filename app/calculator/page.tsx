@@ -404,28 +404,39 @@ const UnitConverter = () => {
 // --- Main Page Component ---
 const CalculatorPage = () => {
   return (
-    <div className="flex justify-center items-start md:items-center h-full p-2 md:p-4 bg-gray-100 dark:bg-gray-900 overflow-y-auto">
-      <Card className="w-full max-w-lg shadow-2xl bg-card">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">Calculator</CardTitle>
-        </CardHeader>
-        <CardContent>
-           <Tabs defaultValue="calculator" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="calculator">Scientific</TabsTrigger>
-                <TabsTrigger value="converter">Unit Converter</TabsTrigger>
-              </TabsList>
-              <TabsContent value="calculator" className="pt-4">
-                <MainCalculator />
-              </TabsContent>
-              <TabsContent value="converter" className="pt-4">
-                <UnitConverter />
-              </TabsContent>
-            </Tabs>
-        </CardContent>
-      </Card>
+    <div className="flex justify-center items-center min-h-full bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="w-full max-w-4xl">
+        <div className="relative mx-auto border-gray-900 dark:border-gray-800 bg-gray-900 border-[14px] rounded-t-xl h-[500px] md:h-[600px] w-full shadow-xl">
+            <div className="w-full h-full bg-background rounded-t-xl overflow-y-auto">
+                 <Card className="w-full h-full shadow-none border-0 bg-card flex flex-col">
+                    <CardHeader>
+                        <CardTitle className="text-center text-2xl font-bold">Laptop Calculator</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow overflow-y-auto p-2 md:p-6">
+                        <Tabs defaultValue="calculator" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="calculator">Scientific</TabsTrigger>
+                                <TabsTrigger value="converter">Unit Converter</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="calculator" className="pt-4">
+                                <MainCalculator />
+                            </TabsContent>
+                            <TabsContent value="converter" className="pt-4">
+                                <UnitConverter />
+                            </TabsContent>
+                        </Tabs>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+        <div className="relative mx-auto bg-gray-700 dark:bg-gray-600 rounded-b-xl h-[45px] w-[95%] shadow-xl">
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[8px] bg-gray-900 rounded-lg"></div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default CalculatorPage;
+
+    
