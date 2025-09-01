@@ -1,13 +1,17 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronLeft } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const CalculatorPage = () => {
+// --- Main Calculator Component ---
+const MainCalculator = () => {
   const [display, setDisplay] = useState('0');
   const [history, setHistory] = useState('');
   const [firstOperand, setFirstOperand] = useState<number | null>(null);
@@ -180,71 +184,222 @@ const CalculatorPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-full p-4 bg-gray-100 dark:bg-gray-900">
-      <Card className="w-full max-w-sm shadow-2xl bg-card">
+    <>
+      <div className="bg-muted rounded-lg p-2 mb-4">
+        <div className="text-right text-muted-foreground text-sm h-6 pr-2 truncate">{history || ' '}</div>
+        <Input
+          type="text"
+          className="text-right text-4xl font-mono h-auto bg-transparent border-0 ring-0 focus-visible:ring-0"
+          value={display}
+          readOnly
+          aria-label="Calculator display"
+        />
+      </div>
+      <div className="grid grid-cols-5 gap-2">
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqr')}>x²</Button>
+        <Button variant="outline" onClick={() => handleOperatorClick('^')}>xʸ</Button>
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('sin')}>sin</Button>
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('cos')}>cos</Button>
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('tan')}>tan</Button>
+
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqrt')}>√</Button>
+        <Button variant="outline" onClick={() => handleConstantClick('π')}>π</Button>
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('log')}>log</Button>
+        <Button variant="outline" onClick={() => handleUnaryOperatorClick('ln')}>ln</Button>
+        <Button variant="outline" onClick={() => handleConstantClick('e')}>e</Button>
+        
+        <Button variant="secondary" onClick={handleClearClick}>C</Button>
+        <Button variant="secondary" onClick={() => handleUnaryOperatorClick('+/-')}>+/-</Button>
+        <Button variant="secondary" onClick={() => handleUnaryOperatorClick('%')}>%</Button>
+        <Button variant="secondary" size="icon" onClick={handleBackspace}><ChevronLeft /></Button>
+        <Button variant="destructive" onClick={() => handleOperatorClick('/')}>÷</Button>
+        
+        <Button variant="outline" onClick={() => handleMemoryClick('MC')}>MC</Button>
+        <Button onClick={() => handleDigitClick('7')}>7</Button>
+        <Button onClick={() => handleDigitClick('8')}>8</Button>
+        <Button onClick={() => handleDigitClick('9')}>9</Button>
+        <Button variant="destructive" onClick={() => handleOperatorClick('*')}>×</Button>
+
+        <Button variant="outline" onClick={() => handleMemoryClick('MR')}>MR</Button>
+        <Button onClick={() => handleDigitClick('4')}>4</Button>
+        <Button onClick={() => handleDigitClick('5')}>5</Button>
+        <Button onClick={() => handleDigitClick('6')}>6</Button>
+        <Button variant="destructive" onClick={() => handleOperatorClick('-')}>-</Button>
+
+        <Button variant="outline" onClick={() => handleMemoryClick('M+')}>M+</Button>
+        <Button onClick={() => handleDigitClick('1')}>1</Button>
+        <Button onClick={() => handleDigitClick('2')}>2</Button>
+        <Button onClick={() => handleDigitClick('3')}>3</Button>
+        <Button variant="destructive" onClick={() => handleOperatorClick('+')}>+</Button>
+
+        <Button variant="outline" onClick={() => handleMemoryClick('M-')}>M-</Button>
+        <Button className="col-span-2" onClick={() => handleDigitClick('0')}>0</Button>
+        <Button onClick={handleDecimalClick}>.</Button>
+        <Button variant="primary" className="bg-green-600 hover:bg-green-700" onClick={handleEqualsClick}>=</Button>
+      </div>
+    </>
+  );
+};
+
+
+// --- Unit Converter Data and Logic ---
+const conversionFactors: Record<string, Record<string, number>> = {
+  Length: {
+    Meters: 1,
+    Kilometers: 0.001,
+    Centimeters: 100,
+    Millimeters: 1000,
+    Miles: 0.000621371,
+    Yards: 1.09361,
+    Feet: 3.28084,
+    Inches: 39.3701,
+  },
+  Weight: {
+    Kilograms: 1,
+    Grams: 1000,
+    Milligrams: 1000000,
+    Pounds: 2.20462,
+    Ounces: 35.274,
+  },
+  Temperature: {
+    Celsius: 1,
+    Fahrenheit: 1, // Special handling
+    Kelvin: 1,     // Special handling
+  },
+};
+
+const conversionOptions: Record<string, string[]> = {
+  Length: Object.keys(conversionFactors.Length),
+  Weight: Object.keys(conversionFactors.Weight),
+  Temperature: Object.keys(conversionFactors.Temperature),
+};
+
+const convertValue = (
+  value: number,
+  fromUnit: string,
+  toUnit: string,
+  category: string
+): number => {
+  if (fromUnit === toUnit) return value;
+
+  if (category === 'Temperature') {
+    if (fromUnit === 'Celsius' && toUnit === 'Fahrenheit') return (value * 9/5) + 32;
+    if (fromUnit === 'Fahrenheit' && toUnit === 'Celsius') return (value - 32) * 5/9;
+    if (fromUnit === 'Celsius' && toUnit === 'Kelvin') return value + 273.15;
+    if (fromUnit === 'Kelvin' && toUnit === 'Celsius') return value - 273.15;
+    if (fromUnit === 'Fahrenheit' && toUnit === 'Kelvin') return ((value - 32) * 5/9) + 273.15;
+    if (fromUnit === 'Kelvin' && toUnit === 'Fahrenheit') return ((value - 273.15) * 9/5) + 32;
+    return value; // Should not happen with same from/to unit check
+  } else {
+    const fromFactor = conversionFactors[category][fromUnit];
+    const toFactor = conversionFactors[category][toUnit];
+    const valueInBase = value / fromFactor;
+    return valueInBase * toFactor;
+  }
+};
+
+
+// --- Unit Converter Component ---
+const UnitConverter = () => {
+    const [category, setCategory] = useState<string>('Length');
+    const [fromUnit, setFromUnit] = useState<string>(conversionOptions['Length'][0]);
+    const [toUnit, setToUnit] = useState<string>(conversionOptions['Length'][1]);
+    const [fromValue, setFromValue] = useState<string>('1');
+    const [toValue, setToValue] = useState<string>('');
+
+    const currentUnits = useMemo(() => conversionOptions[category], [category]);
+    
+    useEffect(() => {
+        setFromUnit(currentUnits[0]);
+        setToUnit(currentUnits.length > 1 ? currentUnits[1] : currentUnits[0]);
+    }, [category, currentUnits]);
+
+    useEffect(() => {
+        const fromNumber = parseFloat(fromValue);
+        if (!isNaN(fromNumber)) {
+            const result = convertValue(fromNumber, fromUnit, toUnit, category);
+            setToValue(result.toLocaleString('en-US', { maximumFractionDigits: 5 }));
+        } else {
+            setToValue('');
+        }
+    }, [fromValue, fromUnit, toUnit, category]);
+
+    const handleFromValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFromValue(e.target.value);
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="space-y-2">
+                <Label htmlFor="category">Conversion Type</Label>
+                <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger id="category">
+                        <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {Object.keys(conversionOptions).map((cat) => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                <div className="space-y-2">
+                    <Label htmlFor="from-unit">From</Label>
+                    <Select value={fromUnit} onValueChange={setFromUnit}>
+                        <SelectTrigger id="from-unit">
+                            <SelectValue placeholder="From unit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {currentUnits.map((unit) => (
+                                <SelectItem key={unit} value={unit}>{unit}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Input id="from-value" type="number" value={fromValue} onChange={handleFromValueChange} />
+                </div>
+                
+                 <div className="space-y-2">
+                    <Label htmlFor="to-unit">To</Label>
+                    <Select value={toUnit} onValueChange={setToUnit}>
+                        <SelectTrigger id="to-unit">
+                            <SelectValue placeholder="To unit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {currentUnits.map((unit) => (
+                                <SelectItem key={unit} value={unit}>{unit}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Input id="to-value" value={toValue} readOnly className="font-semibold bg-muted" />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- Main Page Component ---
+const CalculatorPage = () => {
+  return (
+    <div className="flex justify-center items-start md:items-center h-full p-2 md:p-4 bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+      <Card className="w-full max-w-lg shadow-2xl bg-card">
         <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">Scientific Calculator</CardTitle>
+          <CardTitle className="text-center text-2xl font-bold">Calculator</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-muted rounded-lg p-2 mb-4">
-            <div className="text-right text-muted-foreground text-sm h-6 pr-2 truncate">{history || ' '}</div>
-            <Input
-              type="text"
-              className="text-right text-4xl font-mono h-auto bg-transparent border-0 ring-0 focus-visible:ring-0"
-              value={display}
-              readOnly
-              aria-label="Calculator display"
-            />
-          </div>
-          <div className="grid grid-cols-5 gap-2">
-            {/* Row 1 */}
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqr')}>x²</Button>
-            <Button variant="outline" onClick={() => handleOperatorClick('^')}>xʸ</Button>
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('sin')}>sin</Button>
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('cos')}>cos</Button>
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('tan')}>tan</Button>
-
-            {/* Row 2 */}
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('sqrt')}>√</Button>
-            <Button variant="outline" onClick={() => handleConstantClick('π')}>π</Button>
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('log')}>log</Button>
-            <Button variant="outline" onClick={() => handleUnaryOperatorClick('ln')}>ln</Button>
-             <Button variant="outline" onClick={() => handleConstantClick('e')}>e</Button>
-            
-            {/* Row 3 */}
-            <Button variant="secondary" onClick={handleClearClick}>C</Button>
-            <Button variant="secondary" onClick={() => handleUnaryOperatorClick('+/-')}>+/-</Button>
-            <Button variant="secondary" onClick={() => handleUnaryOperatorClick('%')}>%</Button>
-            <Button variant="secondary" size="icon" onClick={handleBackspace}><ChevronLeft /></Button>
-            <Button variant="destructive" onClick={() => handleOperatorClick('/')}>÷</Button>
-            
-            {/* Row 4 */}
-            <Button variant="outline" onClick={() => handleMemoryClick('MC')}>MC</Button>
-            <Button onClick={() => handleDigitClick('7')}>7</Button>
-            <Button onClick={() => handleDigitClick('8')}>8</Button>
-            <Button onClick={() => handleDigitClick('9')}>9</Button>
-            <Button variant="destructive" onClick={() => handleOperatorClick('*')}>×</Button>
-
-            {/* Row 5 */}
-            <Button variant="outline" onClick={() => handleMemoryClick('MR')}>MR</Button>
-            <Button onClick={() => handleDigitClick('4')}>4</Button>
-            <Button onClick={() => handleDigitClick('5')}>5</Button>
-            <Button onClick={() => handleDigitClick('6')}>6</Button>
-            <Button variant="destructive" onClick={() => handleOperatorClick('-')}>-</Button>
-
-            {/* Row 6 */}
-            <Button variant="outline" onClick={() => handleMemoryClick('M+')}>M+</Button>
-            <Button onClick={() => handleDigitClick('1')}>1</Button>
-            <Button onClick={() => handleDigitClick('2')}>2</Button>
-            <Button onClick={() => handleDigitClick('3')}>3</Button>
-            <Button variant="destructive" onClick={() => handleOperatorClick('+')}>+</Button>
-
-            {/* Row 7 */}
-            <Button variant="outline" onClick={() => handleMemoryClick('M-')}>M-</Button>
-            <Button className="col-span-2" onClick={() => handleDigitClick('0')}>0</Button>
-            <Button onClick={handleDecimalClick}>.</Button>
-            <Button variant="primary" className="bg-green-600 hover:bg-green-700" onClick={handleEqualsClick}>=</Button>
-          </div>
+           <Tabs defaultValue="calculator" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="calculator">Scientific</TabsTrigger>
+                <TabsTrigger value="converter">Unit Converter</TabsTrigger>
+              </TabsList>
+              <TabsContent value="calculator" className="pt-4">
+                <MainCalculator />
+              </TabsContent>
+              <TabsContent value="converter" className="pt-4">
+                <UnitConverter />
+              </TabsContent>
+            </Tabs>
         </CardContent>
       </Card>
     </div>
