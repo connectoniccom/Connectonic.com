@@ -1,32 +1,17 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Music, Video, User, PlayCircle, Download, Loader2 } from 'lucide-react';
+import { Search, User, Hourglass } from 'lucide-react';
 import { artists, Artist } from './data';
 
 const ArtistsPage = () => {
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [videoUrl, setVideoUrl] = useState('');
-
-  const [currentVideo, setCurrentVideo] = useState<{ src: string; title: string } | null>(null);
-  const [downloadingType, setDownloadingType] = useState<string | null>(null);
-  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (selectedArtist) {
-      setCurrentVideo({ src: selectedArtist.videoSrc, title: 'Main Video' });
-      if(currentAudio) {
-        currentAudio.pause();
-        setCurrentAudio(null);
-      }
-    }
-  }, [selectedArtist, currentAudio]);
 
   const filteredArtists = useMemo(() => {
     if (!searchTerm) return artists;
@@ -37,139 +22,43 @@ const ArtistsPage = () => {
 
   const otherArtists = artists.filter(artist => artist.id !== selectedArtist?.id);
 
-  const handleMediaSelect = (media: { title: string; type: 'Audio' | 'Video'; src: string }) => {
-    if (media.type === 'Video') {
-       if(currentAudio) {
-        currentAudio.pause();
-        setCurrentAudio(null);
-      }
-      setCurrentVideo({ src: media.src, title: media.title });
-    } else {
-      if(currentAudio?.src === media.src) {
-        if(currentAudio.paused) {
-          currentAudio.play();
-        } else {
-          currentAudio.pause();
-        }
-      } else {
-        currentAudio?.pause();
-        const audio = new Audio(media.src);
-        setCurrentAudio(audio);
-        audio.play();
-      }
-    }
-  };
-
-  const handleDownload = async (url: string, type: 'video' | 'audio') => {
-    setDownloadingType(type);
-    try {
-      const response = await fetch(`/api/download-${type}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videoUrl: url }),
-      });
-
-      if (!response.ok) {
-        let errorMessage = `Download failed with status: ${response.status}`;
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error || errorMessage;
-        } catch (e) {
-          try {
-            const errorText = await response.text();
-            if (errorText) errorMessage = errorText;
-          } catch (e2) {
-          }
-        }
-        throw new Error(errorMessage);
-      }
-
-      const blob = await response.blob();
-      const contentDisposition = response.headers.get('content-disposition');
-      let filename = `download.${type === 'video' ? 'mp4' : 'mp3'}`;
-
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
-        if (filenameMatch && filenameMatch.length > 1) {
-          filename = filenameMatch[1];
-        }
-      }
-
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(link.href);
-
-    } catch (error: any) {
-      console.error(`Error downloading ${type}:`, error);
-      alert(`Error downloading ${type}: ${error.message}`);
-    } finally {
-      setDownloadingType(null);
-    }
-  };
-
-
   if (selectedArtist) {
     return (
       <div className="container mx-auto p-4 animate-fade-in">
         <Button variant="outline" onClick={() => setSelectedArtist(null)} className="mb-8">
           &larr; Back to All Artists
         </Button>
-        <h1 className="text-5xl font-extrabold mb-4 text-center">{selectedArtist.name}</h1>
-        <p className="text-lg text-muted-foreground text-center mb-8">{selectedArtist.bio}</p>
+        <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+            <div className="w-full md:w-1/3 flex-shrink-0">
+                 <Image
+                    src={selectedArtist.image}
+                    alt={`Profile photo of ${selectedArtist.name}`}
+                    width={400}
+                    height={400}
+                    className="w-full h-auto object-cover rounded-lg shadow-lg"
+                    data-ai-hint={selectedArtist.dataAiHint}
+                />
+            </div>
+            <div className="flex-grow">
+                <h1 className="text-5xl font-extrabold mb-4">{selectedArtist.name}</h1>
+                <p className="text-lg text-muted-foreground">{selectedArtist.bio}</p>
+            </div>
+        </div>
 
-        {/* Main Media Canvas */}
-        <Card className="mb-8 shadow-lg">
+        {/* Media Coming Soon Canvas */}
+        <Card className="mb-8 shadow-lg bg-secondary/50">
           <CardHeader>
-            <CardTitle>Featured Media</CardTitle>
+            <CardTitle className="flex items-center">
+                <Hourglass className="mr-3 text-primary"/>
+                Media Coming Soon
+            </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col items-center gap-8">
-            {/* Video Container */}
-            {currentVideo && (
-                 <div className="w-full max-w-md space-y-4">
-                    <h3 className="text-2xl font-semibold flex items-center"><Video className="mr-2" /> {currentVideo.title}</h3>
-                    <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                        <video key={currentVideo.src} controls className="w-full h-full" preload="metadata">
-                          <source src={currentVideo.src} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
-            )}
+          <CardContent>
+            <p className="text-muted-foreground">
+                We're working hard to bring you music and videos from {selectedArtist.name}. Check back soon!
+            </p>
           </CardContent>
         </Card>
-
-        {/* Other Media */}
-         {selectedArtist.otherMedia && selectedArtist.otherMedia.length > 0 && (
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>More from {selectedArtist.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {selectedArtist.otherMedia.map((media, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-2 rounded-lg hover:bg-accent cursor-pointer"
-                    onClick={() => handleMediaSelect(media)}
-                  >
-                    <div className="flex items-center">
-                       {media.type === 'Audio' ? <Music className="h-5 w-5 mr-3" /> : <Video className="h-5 w-5 mr-3" />}
-                       <div>
-                        <p className="font-semibold">{media.title}</p>
-                        <p className="text-sm text-muted-foreground">{media.type}</p>
-                      </div>
-                    </div>
-                    <PlayCircle className="h-6 w-6 text-muted-foreground" />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Other Artists Gallery */}
         <h2 className="text-3xl font-bold mt-12 mb-6 text-center">Discover Other Artists</h2>
@@ -181,7 +70,7 @@ const ArtistsPage = () => {
                 alt={artist.name}
                 width={200}
                 height={200}
-                className="rounded-full object-cover w-full aspect-square transition-transform duration-300"
+                className="rounded-full object-cover w-full aspect-square transition-transform duration-300 group-hover:scale-105"
                 data-ai-hint={artist.dataAiHint}
               />
               <p className="mt-2 text-center font-semibold">{artist.name}</p>
