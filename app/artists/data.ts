@@ -65,14 +65,14 @@ export const artists: Artist[] = [
   },
   {
     id: 5,
-    name: 'Celeste Bloom',
-    image: 'https://picsum.photos/404/404',
-    dataAiHint: 'singer stage',
-    bio: 'A pop singer with a powerful voice and an anthemic sound. Her songs are about love, loss, and empowerment.',
+    name: 'Sheebah Karungi',
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Sheebah%20kalungi/sheebah%20karungi.jpg',
+    dataAiHint: 'ugandan musician',
+    bio: 'Sheebah Karungi is a Ugandan recording artist, dancer, and actress who debuted her acting career in Queen of Katwe. She is a prominent figure in the Ugandan music scene.',
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
     videoSrc: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
      otherMedia: [
-        { title: 'Starlight Ballad', type: 'Audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3' },
+        { title: 'Nkwatako', type: 'Audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3' },
     ],
   },
   {
