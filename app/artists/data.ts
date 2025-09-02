@@ -17,10 +17,10 @@ export interface Artist {
 export const artists: Artist[] = [
   {
     id: 1,
-    name: 'Leo Mantis',
-    image: 'https://picsum.photos/400/400',
-    dataAiHint: 'musician portrait',
-    bio: 'A solo artist known for his soulful melodies and intricate guitar work. His music blends elements of folk, rock, and blues.',
+    name: 'Irene Ntale',
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Iren%20Ntale/Irene%20ntale.jpg',
+    dataAiHint: 'ugandan musician',
+    bio: 'Irene Ntale is a Ugandan singer, songwriter, and guitarist. She is a versatile artist known for her fusion of R&B, Afropop, and reggae.',
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     videoSrc: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
     otherMedia: [
