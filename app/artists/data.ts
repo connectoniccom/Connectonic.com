@@ -52,15 +52,15 @@ export const artists: Artist[] = [
   },
   {
     id: 4,
-    name: 'The Midnight Howlers',
-    image: 'https://picsum.photos/403/403',
-    dataAiHint: 'rock band',
-    bio: 'A hard-hitting rock band with raw vocals and blistering guitar solos. Their sound is reminiscent of classic rock with a modern edge.',
+    name: 'Winnie Nwagi',
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Winnie%20Nwagi/Winnie%20Nwagi.jpg',
+    dataAiHint: 'ugandan musician',
+    bio: 'Winnie Nakanwagi, known by her stage name Winnie Nwagi, is a Ugandan singer and actress. She is one of the most popular female artists in Uganda, known for her powerful voice and energetic performances.',
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
     videoSrc: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
     otherMedia: [
-        { title: 'Stadium Anthem', type: 'Audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3' },
-        { title: 'Rehearsal Footage', type: 'Video', src: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4' },
+        { title: 'Musawo', type: 'Audio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3' },
+        { title: 'Live Performance', type: 'Video', src: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4' },
     ],
   },
   {
