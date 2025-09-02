@@ -1,21 +1,21 @@
 {
   "name": "Connectonic",
   "short_name": "Connectonic",
+  "description": "Your ultimate hub for discovering new music and connecting with artists.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "description": "Connectonic Music App",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "loader.jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "loader.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ]
 }
