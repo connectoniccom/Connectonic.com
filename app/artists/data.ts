@@ -30,10 +30,10 @@ export const artists: Artist[] = [
   },
   {
     id: 2,
-    name: 'Starlight Groove',
-    image: 'https://picsum.photos/401/401',
-    dataAiHint: 'band music',
-    bio: 'A dynamic funk band that brings energy to every stage. Their groovy basslines and powerful horns are guaranteed to make you move.',
+    name: 'Jose Chameleone',
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Jose%20chameleon/Jose%20chameleon.jpg',
+    dataAiHint: 'ugandan musician',
+    bio: 'Joseph Mayanja, famously known as Jose Chameleone, is one of Africa\'s most celebrated musicians. Hailing from Uganda, his music is a unique blend of Ugandan folk music, Central African rumba, zouk, and reggae.',
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
     videoSrc: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
      otherMedia: [
