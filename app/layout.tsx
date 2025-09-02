@@ -9,7 +9,6 @@ import Header from '@/components/Header';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from '@/context/AuthContext';
 import { usePathname } from 'next/navigation';
-import InstallPrompt from '@/components/InstallPrompt';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,10 +22,12 @@ export default function RootLayout({
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/sw.js')
-                .then((registration) => console.log('Service Worker registered with scope:', registration.scope))
-                .catch((error) => console.error('Service Worker registration failed:', error));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('/sw.js')
+                    .then((registration) => console.log('Service Worker registered with scope:', registration.scope))
+                    .catch((error) => console.error('Service Worker registration failed:', error));
+            });
         }
 
         const handleContextmenu = (e: MouseEvent) => {
@@ -100,7 +101,6 @@ export default function RootLayout({
                                 <main className="flex-1 overflow-y-auto">{children}</main>
                             </div>
                         </div>
-                        <InstallPrompt />
                     </AuthProvider>
                 </ThemeProvider>
             </body>

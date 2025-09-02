@@ -707,9 +707,6 @@ video {
 .aspect-square {
   aspect-ratio: 1 / 1;
 }
-.aspect-video {
-  aspect-ratio: 16 / 9;
-}
 .h-10 {
   height: 2.5rem;
 }
@@ -1077,10 +1074,6 @@ video {
 .bg-background\/95 {
   background-color: hsl(var(--background) / 0.95);
 }
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
 .bg-black\/40 {
   background-color: rgb(0 0 0 / 0.4);
 }
@@ -1130,11 +1123,11 @@ video {
 .bg-secondary {
   background-color: hsl(var(--secondary));
 }
-.bg-transparent {
-  background-color: transparent;
-}
 .bg-secondary\/50 {
   background-color: hsl(var(--secondary) / 0.5);
+}
+.bg-transparent {
+  background-color: transparent;
 }
 .fill-current {
   fill: currentColor;
@@ -1435,9 +1428,6 @@ video {
 }
 .ease-in-out {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-.paused {
-  animation-play-state: paused;
 }
 
 /* Custom styles for Stripe CardElement */

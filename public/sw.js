@@ -1,5 +1,12 @@
+// This is a basic service worker.
 
-// This is a placeholder service worker file.
+self.addEventListener('install', (event) => {
+  // Perform install steps
+  console.log('Service Worker installing.');
+});
+
 self.addEventListener('fetch', (event) => {
-  // We are not caching anything here. This is just to satisfy the registration.
+  // This is a simple pass-through fetch handler.
+  // A more complex app would have caching strategies here.
+  event.respondWith(fetch(event.request));
 });

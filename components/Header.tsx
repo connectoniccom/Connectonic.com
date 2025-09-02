@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from 'next/image';
 import Link from 'next/link';
+import InstallPrompt from './InstallPrompt';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -30,6 +31,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
       </Button>
       <div className="flex-1" />
       <div className="flex items-center gap-4">
+        <InstallPrompt />
         <ModeToggle />
         {user ? (
            <DropdownMenu>

@@ -1,21 +1,21 @@
 {
   "name": "Connectonic",
   "short_name": "Connectonic",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3730a3",
-  "description": "Connectonic live",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Connectonic Music App",
   "icons": [
     {
-      "src": "/loader.jpg",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/jpg"
+      "type": "image/png"
     },
     {
-      "src": "/loader.jpg",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/jpg"
+      "type": "image/png"
     }
   ]
 }
