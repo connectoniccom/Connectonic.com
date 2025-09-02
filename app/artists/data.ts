@@ -78,7 +78,7 @@ export const artists: Artist[] = [
   {
     id: 6,
     name: 'Cindy Sanyu',
-    image: `https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Images/Cindy%20sanyu.jpg`,
+    image: 'https://storage.googleapis.com/gcf-v2-uploads-737297307622.us-central1.cloudfunctions.appspot.com/Cindy%20sanyu/Cindy%20sanyu.jpg',
     dataAiHint: 'ugandan musician',
     bio: 'Cinderella Sanyu, known as Cindy, is a Ugandan musician. She was one of the original members of Blu*3. She is known for her energetic live performances and has been dubbed \'The King Herself\'.',
     audioSrc: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
