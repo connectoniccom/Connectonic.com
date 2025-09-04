@@ -25,6 +25,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/flutter/:path*',
+        destination: 'http://localhost:3000/flutter/:path*'
+      }
+    ]
+  }
 };
 
 export default nextConfig;

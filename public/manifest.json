@@ -5,17 +5,17 @@
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "description": "Your ultimate hub for discovering new music and connecting with artists.",
+  "description": "Connectonic.live",
   "icons": [
     {
       "src": "/loader.jpg",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/jpg"
     },
     {
       "src": "/loader.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpg"
     }
   ]
 }

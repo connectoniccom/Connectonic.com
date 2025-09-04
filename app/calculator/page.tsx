@@ -235,7 +235,7 @@ const MainCalculator = () => {
         <Button variant="outline" onClick={() => handleMemoryClick('M-')}>M-</Button>
         <Button className="col-span-2" onClick={() => handleDigitClick('0')}>0</Button>
         <Button onClick={handleDecimalClick}>.</Button>
-        <Button variant="primary" className="bg-green-600 hover:bg-green-700" onClick={handleEqualsClick}>=</Button>
+        <Button variant="default" className="bg-green-600 hover:bg-green-700" onClick={handleEqualsClick}>=</Button>
       </div>
     </>
   );
@@ -407,7 +407,7 @@ const CalculatorPage = () => {
     <div className="flex justify-center items-center min-h-full bg-gray-100 dark:bg-gray-900 p-4">
       <div className="w-full max-w-4xl">
         <div className="relative mx-auto border-gray-900 dark:border-gray-800 bg-gray-900 border-[14px] rounded-t-xl h-[500px] md:h-[600px] w-full shadow-xl">
-            <div className="w-full h-full bg-background rounded-t-xl overflow-y-auto">
+            <div className="w-full h-full bg-.background rounded-t-xl overflow-y-auto">
                  <Card className="w-full h-full shadow-none border-0 bg-card flex flex-col">
                     <CardHeader>
                         <CardTitle className="text-center text-2xl font-bold">Laptop Calculator</CardTitle>
@@ -439,4 +439,3 @@ const CalculatorPage = () => {
 
 export default CalculatorPage;
 
-    

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Home, User, X, Calculator, Heart, LogIn, Smile } from 'lucide-react';
+import { Home, User, X, Calculator, Heart, LogIn, Smile, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
@@ -25,6 +25,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     { href: '/artists', icon: User, label: 'Artists' },
     { href: '/animations', icon: Smile, label: 'Animations' },
     { href: '/calculator', icon: Calculator, label: 'Calculator' },
+    { href: '/flutter', icon: Share2, label: 'Connectonic' },
     { href: '/donate', icon: Heart, label: 'Donate' },
   ];
 

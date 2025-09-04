@@ -9,9 +9,6 @@
 
 import {setGlobalOptions} from "firebase-functions/v2";
 
-// Import functions from your function files
-export * from "./genkit-sample";
-
 
 // Set global options for all functions
 setGlobalOptions({maxInstances: 10});

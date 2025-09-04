@@ -1,0 +1,139 @@
+[debug] [2025-09-03T17:01:24.233Z] ----------------------------------------------------------------------
+[debug] [2025-09-03T17:01:24.245Z] Command:       /nix/store/ixbb20farqh1f4fqbmsn6b1ixn8mc8ij-nodejs-20.18.1/bin/node /home/user/.global_modules/bin/firebase deploy
+[debug] [2025-09-03T17:01:24.248Z] CLI Version:   14.12.1
+[debug] [2025-09-03T17:01:24.249Z] Platform:      linux
+[debug] [2025-09-03T17:01:24.250Z] Node Version:  v20.18.1
+[debug] [2025-09-03T17:01:24.251Z] Time:          Wed Sep 03 2025 17:01:24 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-09-03T17:01:24.252Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-03T17:01:24.258Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-09-03T17:01:25.324Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:25.325Z] No OAuth tokens found
+[error] Failed to fetch Firebase Project from current Studio Workspace: Unable to refresh auth: not yet authenticated.
+[debug] [2025-09-03T17:01:25.359Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-09-03T17:01:25.528Z] Running auto auth
+[debug] [2025-09-03T17:01:25.600Z] [iam] checking project connectonic-wnnms for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-09-03T17:01:25.602Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:25.602Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/connectonic-wnnms:testIamPermissions [none]
+[debug] [2025-09-03T17:01:25.610Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/connectonic-wnnms:testIamPermissions x-goog-quota-user=projects/connectonic-wnnms
+[debug] [2025-09-03T17:01:25.610Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/connectonic-wnnms:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-03T17:01:25.689Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-09-03T17:01:25.695Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2025-09-03T17:01:26.290Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/connectonic-wnnms:testIamPermissions 200
+[debug] [2025-09-03T17:01:26.290Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/connectonic-wnnms:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-03T17:01:26.291Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:26.291Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/connectonic-wnnms/serviceAccounts/connectonic-wnnms@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-09-03T17:01:26.291Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/connectonic-wnnms/serviceAccounts/connectonic-wnnms@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-09-03T17:01:26.960Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/connectonic-wnnms/serviceAccounts/connectonic-wnnms@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-09-03T17:01:26.961Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/connectonic-wnnms/serviceAccounts/connectonic-wnnms@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-09-03T17:01:26.966Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:26.972Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/connectonic-wnnms [none]
+[debug] [2025-09-03T17:01:27.243Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/connectonic-wnnms 200
+[debug] [2025-09-03T17:01:27.244Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/connectonic-wnnms {"projectId":"connectonic-wnnms","projectNumber":"737297307622","displayName":"Connectonic","name":"projects/connectonic-wnnms","resources":{"hostingSite":"connectonic-wnnms"},"state":"ACTIVE","etag":"1_8611f4c7-00b4-4bcd-abd4-093a49131af2"}
+[debug] [2025-09-03T17:01:30.622Z] defaultcredentials: no credential available.
+[debug] [2025-09-03T17:01:30.624Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:30.625Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites pageToken=&pageSize=10
+[debug] [2025-09-03T17:01:31.523Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites 200
+[debug] [2025-09-03T17:01:31.523Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites {"sites":[{"name":"projects/connectonic-wnnms/sites/connectonic-8949c","defaultUrl":"https://connectonic-8949c.web.app","type":"USER_SITE"},{"name":"projects/connectonic-wnnms/sites/connectonic-wnnms","defaultUrl":"https://connectonic-wnnms.web.app","appId":"1:737297307622:web:65a551f12cd482122ce827","type":"DEFAULT_SITE"}]}
+[debug] [2025-09-03T17:01:31.525Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:31.526Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:737297307622:web:65a551f12cd482122ce827/config [none]
+[debug] [2025-09-03T17:01:31.973Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:737297307622:web:65a551f12cd482122ce827/config 200
+[debug] [2025-09-03T17:01:31.974Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:737297307622:web:65a551f12cd482122ce827/config {"projectId":"connectonic-wnnms","appId":"1:737297307622:web:65a551f12cd482122ce827","storageBucket":"connectonic-wnnms.firebasestorage.app","apiKey":"AIzaSyDgvWbR9PEPXyI72tNSiSdYeuO_ZsqlNbY","authDomain":"connectonic-wnnms.firebaseapp.com","messagingSenderId":"737297307622","measurementId":"G-J5S1TZWBGE"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-09-03T17:01:39.686Z] No OAuth tokens found
+[debug] [2025-09-03T17:01:39.687Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms [none]
+[debug] [2025-09-03T17:01:40.459Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms 200
+[debug] [2025-09-03T17:01:40.460Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms {"name":"projects/connectonic-wnnms/sites/connectonic-wnnms","defaultUrl":"https://connectonic-wnnms.web.app","appId":"1:737297307622:web:65a551f12cd482122ce827","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.32
+
+[info]   - Environments: .env.local
+
+
+[info]    Creating an optimized production build ...
+
+[info]  ✓ Compiled successfully
+
+[info]    Linting and checking validity of types ...
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/26) ...
+
+[info]    Generating static pages (6/26) 
+
+[info]    Generating static pages (12/26) 
+
+[info]    Generating static pages (19/26) 
+
+[info]  ✓ Generating static pages (26/26)
+
+[info]    Finalizing page optimization ...
+
+[info]    Collecting build traces ...
+
+[info] 
+
+[info] Route (app)                               Size     First Load JS
+┌ ○ /                                     294 B          96.1 kB
+├ ○ /_not-found                           875 B          88.1 kB
+├ ○ /animations                           3.95 kB         108 kB
+├ ● /animations/[id]                      186 B           101 kB
+├   ├ /animations/sticker-1
+├   ├ /animations/sticker-2
+├   ├ /animations/sticker-3
+├   └ [+12 more paths]
+├ ƒ /api/artists                          0 B                0 B
+├ ƒ /api/artists/[id]                     0 B                0 B
+├ ƒ /api/data                             0 B                0 B
+├ ○ /artists                              3.74 kB         104 kB
+├ ○ /auth                                 8.35 kB         149 kB
+├ ○ /calculator                           15.5 kB         129 kB
+└ ○ /donate                               1.89 kB         106 kB
++ First Load JS shared by all             87.2 kB
+  ├ chunks/117-5a92334e25db0e3b.js        31.6 kB
+  ├ chunks/fd9d1056-2887e052b37253d1.js   53.7 kB
+  └ other shared chunks (total)           1.95 kB
+
+Route (pages)                             Size     First Load JS
+┌ ƒ /api/download-audio                   0 B            85.4 kB
+└ ƒ /api/download-video                   0 B            85.4 kB
++ First Load JS shared by all             85.4 kB
+  ├ chunks/framework-f66176bb897dc684.js  44.9 kB
+  ├ chunks/main-82a038273ed5b7b6.js       38.6 kB
+  └ other shared chunks (total)           1.92 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses getStaticProps)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • Image Optimization
+[info]  • use of fallback /animations/[id]
+[info]  • non-static route /api/download-audio
+[info]  • non-static route /api/download-video
+[info]  • non-static component /api/artists/[id]/route
+[debug] [2025-09-03T17:03:16.395Z]  • non-static component /api/artists/route
+[debug] [2025-09-03T17:03:16.396Z]  • non-static component /api/data/route
+[debug] [2025-09-03T17:03:16.396Z]  • advanced rewrites
+[info]  • and 3 other reasons, use --debug to see more
+[info] 
+[debug] [2025-09-03T17:03:32.107Z] No OAuth tokens found
+[debug] [2025-09-03T17:03:32.109Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms [none]
+[debug] [2025-09-03T17:03:32.902Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms 200
+[debug] [2025-09-03T17:03:32.904Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/connectonic-wnnms/sites/connectonic-wnnms {"name":"projects/connectonic-wnnms/sites/connectonic-wnnms","defaultUrl":"https://connectonic-wnnms.web.app","appId":"1:737297307622:web:65a551f12cd482122ce827","type":"DEFAULT_SITE"}
+[debug] [2025-09-03T17:04:23.357Z] Error: Command failed: npm i --omit dev --no-audit
+    at genericNodeError (node:internal/errors:984:15)
+    at wrappedFn (node:internal/errors:538:14)
+    at checkExecSyncError (node:child_process:891:11)
+    at execSync (node:child_process:963:15)
+    at prepareFrameworks (/home/user/.global_modules/lib/node_modules/firebas
